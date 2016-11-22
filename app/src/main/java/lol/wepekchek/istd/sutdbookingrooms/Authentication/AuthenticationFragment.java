@@ -1,16 +1,31 @@
 package lol.wepekchek.istd.sutdbookingrooms.Authentication;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.ImageView;
+import android.widget.Toast;
+import android.view.Display;
+
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.MultiFormatWriter;
+import com.google.zxing.WriterException;
+import com.google.zxing.common.BitMatrix;
+import com.google.zxing.qrcode.QRCodeWriter;
 
 import lol.wepekchek.istd.sutdbookingrooms.R;
 
-import com.google.android.gms.plus.PlusOneButton;
+import java.util.UUID;
+
+import static android.graphics.Color.BLACK;
+import static android.graphics.Color.WHITE;
 
 /**
  * A fragment with a Google +1 button.
@@ -25,6 +40,7 @@ public class AuthenticationFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    private ImageView qrCode;
     // The request code must be 0 or greater.
     private static final int PLUS_ONE_REQUEST_CODE = 0;
     // The URL to +1.  Must be a valid URL.
@@ -32,7 +48,6 @@ public class AuthenticationFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-    private PlusOneButton mPlusOneButton;
 
     private OnFragmentInteractionListener mListener;
 
@@ -73,18 +88,57 @@ public class AuthenticationFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_authentication, container, false);
 
-        //Find the +1 button
-        mPlusOneButton = (PlusOneButton) view.findViewById(R.id.plus_one_button);
+        // Locate the ImageView
+        qrCode = (ImageView) view.findViewById(R.id.qrCode);
+
+        // Get QR String
+        String authorKey = UUID.randomUUID().toString().replace("-","").substring(0,20);
+
+        // Get screen size for QR code generation
+        Display display = ((WindowManager) getActivity().getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
+        int width = display.getWidth();
+        int height = display.getHeight();
+        int smallerDimension = width<height ? width:height;
+        smallerDimension = smallerDimension * 3/4;
+
+        //Encode with a QR Code image
+        try {
+            Bitmap bitmap = encodeAsBitmap(authorKey, smallerDimension);
+            qrCode.setImageBitmap(bitmap);
+        } catch (WriterException e){
+            e.printStackTrace();
+        }
 
         return view;
+    }
+
+    Bitmap encodeAsBitmap(String str, Integer width) throws WriterException {
+        BitMatrix result;
+        try {
+            result = new MultiFormatWriter().encode(str, BarcodeFormat.QR_CODE, width, width, null);
+        } catch (IllegalArgumentException e){
+            return null;
+        }
+
+        int w = result.getWidth();
+        int h = result.getHeight();
+        int[] pixels = new int[w*h];
+
+        for (int y=0;y<h;y++){
+            int offset = y*w;
+            for (int x=0;x<w;x++){
+                pixels[offset+x]=result.get(x,y) ? BLACK:WHITE;
+            }
+        }
+
+        Bitmap bitmap = Bitmap.createBitmap(w,h, Bitmap.Config.ARGB_8888);
+        bitmap.setPixels(pixels,0,width,0,0,w,h);
+        return bitmap;
     }
 
     @Override
     public void onResume() {
         super.onResume();
-
-        // Refresh the state of the +1 button each time the activity receives focus.
-        mPlusOneButton.initialize(PLUS_ONE_URL, PLUS_ONE_REQUEST_CODE);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -94,22 +148,22 @@ public class AuthenticationFragment extends Fragment {
         }
     }
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
+//    @Override
+//    public void onAttach(Context context) {
+//        super.onAttach(context);
+//        if (context instanceof OnFragmentInteractionListener) {
+//            mListener = (OnFragmentInteractionListener) context;
+//        } else {
+//            throw new RuntimeException(context.toString()
+//                    + " must implement OnFragmentInteractionListener");
+//        }
+//    }
+//
+//    @Override
+//    public void onDetach() {
+//        super.onDetach();
+//        mListener = null;
+//    }
 
     /**
      * This interface must be implemented by activities that contain this
