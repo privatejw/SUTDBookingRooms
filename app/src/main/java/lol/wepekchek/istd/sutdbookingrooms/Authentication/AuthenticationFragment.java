@@ -8,9 +8,9 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.view.Display;
 
@@ -18,7 +18,6 @@ import com.google.zxing.BarcodeFormat;
 import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
-import com.google.zxing.qrcode.QRCodeWriter;
 
 import lol.wepekchek.istd.sutdbookingrooms.R;
 
@@ -40,11 +39,10 @@ public class AuthenticationFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+
     private ImageView qrCode;
-    // The request code must be 0 or greater.
-    private static final int PLUS_ONE_REQUEST_CODE = 0;
-    // The URL to +1.  Must be a valid URL.
-    private final String PLUS_ONE_URL = "http://developer.android.com";
+    private TextView message;
+
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -88,8 +86,9 @@ public class AuthenticationFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_authentication, container, false);
 
-        // Locate the ImageView
+        // Locate the elems
         qrCode = (ImageView) view.findViewById(R.id.qrCode);
+        message = (TextView) view.findViewById(R.id.message);
 
         // Get QR String
         String authorKey = UUID.randomUUID().toString().replace("-","").substring(0,20);
@@ -105,8 +104,11 @@ public class AuthenticationFragment extends Fragment {
         try {
             Bitmap bitmap = encodeAsBitmap(authorKey, smallerDimension);
             qrCode.setImageBitmap(bitmap);
+            message.setText("Done! Here's your unique access code for the meeting room:");
         } catch (WriterException e){
             e.printStackTrace();
+            //qrCode.setImageDrawable(); put error image laterrrr
+            message.setText("Oops, we encountered an error generating your access code! Please try again.");
         }
 
         return view;
