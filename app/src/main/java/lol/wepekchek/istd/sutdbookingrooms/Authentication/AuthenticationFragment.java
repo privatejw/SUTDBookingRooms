@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,6 +23,8 @@ import com.google.zxing.common.BitMatrix;
 import lol.wepekchek.istd.sutdbookingrooms.R;
 
 import java.util.UUID;
+import java.util.concurrent.RunnableFuture;
+import java.util.logging.Handler;
 
 import static android.graphics.Color.BLACK;
 import static android.graphics.Color.WHITE;
@@ -42,6 +45,8 @@ public class AuthenticationFragment extends Fragment {
 
     private ImageView qrCode;
     private TextView message;
+    private TextView countDown;
+    private int timer;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -89,7 +94,15 @@ public class AuthenticationFragment extends Fragment {
         // Locate the elems
         qrCode = (ImageView) view.findViewById(R.id.qrCode);
         message = (TextView) view.findViewById(R.id.message);
+        countDown = (TextView) view.findViewById(R.id.countDown);
 
+        // Create QR onCreateView
+        createQR();
+
+        return view;
+    }
+
+    private void createQR(){
         // Get QR String
         String authorKey = UUID.randomUUID().toString().replace("-","").substring(0,20);
 
@@ -98,7 +111,7 @@ public class AuthenticationFragment extends Fragment {
         int width = display.getWidth();
         int height = display.getHeight();
         int smallerDimension = width<height ? width:height;
-        smallerDimension = smallerDimension * 3/4;
+        smallerDimension = smallerDimension * 4/5;
 
         //Encode with a QR Code image
         try {
@@ -111,10 +124,26 @@ public class AuthenticationFragment extends Fragment {
             message.setText("Oops, we encountered an error generating your access code! Please try again.");
         }
 
-        return view;
+        //CountDown
+        rCountDown();
+
     }
 
-    Bitmap encodeAsBitmap(String str, Integer width) throws WriterException {
+    private void rCountDown(){
+        new CountDownTimer(60000,1000){
+            public void onTick(long millisUntilFinished){
+                countDown.setText("Code expiring in: " + Integer.valueOf((int) Math.floor(millisUntilFinished/60000)) + "m " + Integer.valueOf((int) Math.floor((millisUntilFinished-Math.floor(millisUntilFinished/60000)*60000)/1000)) + "s");
+            }
+
+            public void onFinish(){
+                countDown.setText("Code has expired. Please try again.");
+                createQR();
+                Toast.makeText(getContext(),"The previous access code has expired, new access code generated.",Toast.LENGTH_SHORT).show();
+            }
+        }.start();
+    }
+
+    private Bitmap encodeAsBitmap(String str, Integer width) throws WriterException {
         BitMatrix result;
         try {
             result = new MultiFormatWriter().encode(str, BarcodeFormat.QR_CODE, width, width, null);
@@ -150,22 +179,6 @@ public class AuthenticationFragment extends Fragment {
         }
     }
 
-//    @Override
-//    public void onAttach(Context context) {
-//        super.onAttach(context);
-//        if (context instanceof OnFragmentInteractionListener) {
-//            mListener = (OnFragmentInteractionListener) context;
-//        } else {
-//            throw new RuntimeException(context.toString()
-//                    + " must implement OnFragmentInteractionListener");
-//        }
-//    }
-//
-//    @Override
-//    public void onDetach() {
-//        super.onDetach();
-//        mListener = null;
-//    }
 
     /**
      * This interface must be implemented by activities that contain this
