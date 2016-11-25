@@ -130,7 +130,7 @@ public class AuthenticationFragment extends Fragment {
     }
 
     private void rCountDown(){
-        new CountDownTimer(60000,1000){
+        new CountDownTimer(600000,1000){
             public void onTick(long millisUntilFinished){
                 countDown.setText("Code expiring in: " + Integer.valueOf((int) Math.floor(millisUntilFinished/60000)) + "m " + Integer.valueOf((int) Math.floor((millisUntilFinished-Math.floor(millisUntilFinished/60000)*60000)/1000)) + "s");
             }
