@@ -15,6 +15,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.view.Display;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.WriterException;
@@ -23,8 +25,6 @@ import com.google.zxing.common.BitMatrix;
 import lol.wepekchek.istd.sutdbookingrooms.R;
 
 import java.util.UUID;
-import java.util.concurrent.RunnableFuture;
-import java.util.logging.Handler;
 
 import static android.graphics.Color.BLACK;
 import static android.graphics.Color.WHITE;
@@ -42,6 +42,8 @@ public class AuthenticationFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+
+    private DatabaseReference mDatabase;
 
     private ImageView qrCode;
     private TextView message;
@@ -83,6 +85,8 @@ public class AuthenticationFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
+        mDatabase = FirebaseDatabase.getInstance().getReference();
     }
 
     @Override
@@ -124,6 +128,9 @@ public class AuthenticationFragment extends Fragment {
             message.setText("Oops, we encountered an error generating your access code! Please try again.");
         }
 
+        //Upload QR String to firebase
+        mDatabase.child("AuthorKey").setValue(authorKey);
+
         //CountDown
         rCountDown();
 
@@ -138,7 +145,7 @@ public class AuthenticationFragment extends Fragment {
             public void onFinish(){
                 countDown.setText("Code has expired. Please try again.");
                 createQR();
-                Toast.makeText(getContext(),"The previous access code has expired, new access code generated.",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(),"The previous access code has expired, code refreshed.",Toast.LENGTH_SHORT).show();
             }
         }.start();
     }

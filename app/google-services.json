@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "115896022958",
+    "firebase_url": "https://sutdbookingrooms.firebaseio.com",
+    "project_id": "sutdbookingrooms",
+    "storage_bucket": "sutdbookingrooms.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:115896022958:android:3cf7fa7343d54949",
+        "android_client_info": {
+          "package_name": "lol.wepekchek.istd.sutdbookingrooms"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "115896022958-ogmht46j89sjeajue41e32b5rkp6p98k.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBsHM2Y7FbNUdI1npe6a2LwEHQ5_XJjwcM"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
