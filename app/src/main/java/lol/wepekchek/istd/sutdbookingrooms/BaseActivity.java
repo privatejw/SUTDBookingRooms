@@ -15,6 +15,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import lol.wepekchek.istd.sutdbookingrooms.Authentication.AuthenticationFragment;
 import lol.wepekchek.istd.sutdbookingrooms.Booking.BookingFragment;
@@ -36,7 +37,7 @@ public class BaseActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                Snackbar.make(view, "Contact us", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
         });
@@ -80,6 +81,7 @@ public class BaseActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            Toast.makeText(getBaseContext(), "Hahaha no settings", Toast.LENGTH_SHORT).show();
             return true;
         }
 
