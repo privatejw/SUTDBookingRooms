@@ -96,37 +96,37 @@ public class MapFragment extends Fragment implements
 
     private void addOverlays() {
         groundOverlays[1] = mMap.addGroundOverlay(new GroundOverlayOptions()
-                .image(BitmapDescriptorFactory.fromResource(R.drawable.Lv1))
+                .image(BitmapDescriptorFactory.fromResource(R.drawable.lvl1))
                 .anchor(0.5f, 0.5f)
                 .position(new LatLng(-53.95, -5.95), 10270f, 6370f)
                 .visible(true));
         groundOverlays[2] = mMap.addGroundOverlay(new GroundOverlayOptions()
-                .image(BitmapDescriptorFactory.fromResource(R.drawable.Lv2))
+                .image(BitmapDescriptorFactory.fromResource(R.drawable.lvl2))
                 .anchor(0.5f, 0.5f)
                 .position(new LatLng(-53.95, -5.95), 10270f, 6370f)
                 .visible(false));
         groundOverlays[3] = mMap.addGroundOverlay(new GroundOverlayOptions()
-                .image(BitmapDescriptorFactory.fromResource(R.drawable.Lv3))
+                .image(BitmapDescriptorFactory.fromResource(R.drawable.lvl3))
                 .anchor(0.5f, 0.5f)
                 .position(new LatLng(-53.95, -5.95), 10270f, 6370f)
                 .visible(false));
         groundOverlays[4] = mMap.addGroundOverlay(new GroundOverlayOptions()
-                .image(BitmapDescriptorFactory.fromResource(R.drawable.Lv4))
+                .image(BitmapDescriptorFactory.fromResource(R.drawable.lvl4))
                 .anchor(0.5f, 0.5f)
                 .position(new LatLng(-53.95, -5.95), 10270f, 6370f)
                 .visible(false));
         groundOverlays[5] = mMap.addGroundOverlay(new GroundOverlayOptions()
-                .image(BitmapDescriptorFactory.fromResource(R.drawable.Lv5))
+                .image(BitmapDescriptorFactory.fromResource(R.drawable.lvl5))
                 .anchor(0.5f, 0.5f)
                 .position(new LatLng(-53.95, -5.95), 10270f, 6370f)
                 .visible(false));
         groundOverlays[6] = mMap.addGroundOverlay(new GroundOverlayOptions()
-                .image(BitmapDescriptorFactory.fromResource(R.drawable.Lv6))
+                .image(BitmapDescriptorFactory.fromResource(R.drawable.lvl6))
                 .anchor(0.5f, 0.5f)
                 .position(new LatLng(-53.95, -5.95), 10270f, 6370f)
                 .visible(false));
         groundOverlays[7] = mMap.addGroundOverlay(new GroundOverlayOptions()
-                .image(BitmapDescriptorFactory.fromResource(R.drawable.Lv7))
+                .image(BitmapDescriptorFactory.fromResource(R.drawable.lvl7))
                 .anchor(0.5f, 0.5f)
                 .position(new LatLng(-53.95, -5.95), 10270f, 6370f)
                 .visible(false));
