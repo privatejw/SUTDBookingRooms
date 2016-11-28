@@ -6,10 +6,13 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import lol.wepekchek.istd.sutdbookingrooms.R;
+import lol.wepekchek.istd.sutdbookingrooms.RoomDatabase;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -37,6 +40,7 @@ public class MapFragment extends Fragment implements
     TextView txtMapSearch;
     GroundOverlay[] groundOverlays;
     int currentLevel;
+    RadioButton[] rbtns;
     ArrayList<Circle> circles;
     ArrayList<Marker> markers;
 
@@ -57,6 +61,58 @@ public class MapFragment extends Fragment implements
         SupportMapFragment mapFragment =
                 (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.sutdMap);
         mapFragment.getMapAsync(this);
+
+        rbtns = new RadioButton[8];
+        rbtns[1] = (RadioButton) view.findViewById(R.id.rbtn1);
+        rbtns[2] = (RadioButton) view.findViewById(R.id.rbtn2);
+        rbtns[3] = (RadioButton) view.findViewById(R.id.rbtn3);
+        rbtns[4] = (RadioButton) view.findViewById(R.id.rbtn4);
+        rbtns[5] = (RadioButton) view.findViewById(R.id.rbtn5);
+        rbtns[6] = (RadioButton) view.findViewById(R.id.rbtn6);
+        rbtns[7] = (RadioButton) view.findViewById(R.id.rbtn7);
+
+        rbtns[1].setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                changeLevel(1);
+            }
+        });
+        rbtns[2].setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                changeLevel(2);
+            }
+        });
+        rbtns[3].setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                changeLevel(3);
+            }
+        });
+        rbtns[4].setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                changeLevel(4);
+            }
+        });
+        rbtns[5].setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                changeLevel(5);
+            }
+        });
+        rbtns[6].setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                changeLevel(6);
+            }
+        });
+        rbtns[7].setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                changeLevel(7);
+            }
+        });
 
         return view;
     }
@@ -81,7 +137,7 @@ public class MapFragment extends Fragment implements
         });
 
         addOverlays();
-        addCircles(57, 1);
+        addCircles(currentLevel);
     }
 
     @Override
@@ -92,6 +148,20 @@ public class MapFragment extends Fragment implements
     @Override
     public void onMapClick(LatLng latLng) {
         txtMapSearch.setText(txtMapSearch.getText().toString()+"\n"+latLng.latitude+", "+latLng.longitude);
+    }
+
+    private void changeLevel(int newLevel) {
+        if (currentLevel == newLevel) return;
+        groundOverlays[newLevel].setVisible(true);
+        groundOverlays[currentLevel].setVisible(false);
+
+        rbtns[newLevel].setTextColor(getResources().getColor(R.color.wallet_link_text_light));
+        rbtns[currentLevel].setTextColor(getResources().getColor(R.color.wallet_bright_foreground_holo_light));
+
+        clearCircles();
+        addCircles(newLevel);
+
+        currentLevel = newLevel;
     }
 
     private void addOverlays() {
@@ -137,21 +207,23 @@ public class MapFragment extends Fragment implements
             Toast.makeText(getContext(), circle.getCenter().toString(), Toast.LENGTH_SHORT).show();
     }
 
-    private void addCircles(int building, int level) {
-        circles.add(mMap.addCircle(new CircleOptions()
-                .center(new LatLng(-53.95, -5.95))
-                .radius(50)
-                .strokeWidth(0)
-                .fillColor(Color.GREEN)
-                .clickable(true)
-                .zIndex(1)));
-        markers.add(mMap.addMarker(new MarkerOptions()
-                .alpha(0)
-                .position(new LatLng(-53.95, -5.95))
-                .infoWindowAnchor(0.5f, 1)
-                .title("Room")
-                .snippet("Yeah")
-                .zIndex(1)));
+    private void addCircles(int level) {
+        for (LatLng loc: RoomDatabase.database.get(level).keySet()) {
+            circles.add(mMap.addCircle(new CircleOptions()
+                    .center(loc)
+                    .radius(50)
+                    .strokeWidth(0)
+                    .fillColor(Color.GREEN)
+                    .clickable(true)
+                    .zIndex(1)));
+            markers.add(mMap.addMarker(new MarkerOptions()
+                    .alpha(0)
+                    .position(loc)
+                    .infoWindowAnchor(0.5f, 1)
+                    .title(RoomDatabase.database.get(level).get(loc))
+                    .snippet("Yeah")
+                    .zIndex(1)));
+        }
     }
 
     private void clearCircles() {

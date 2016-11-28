@@ -24,13 +24,85 @@
         android:id="@+id/sutdMap"
         class="com.google.android.gms.maps.SupportMapFragment"
         android:layout_below="@+id/txtMapSearch" />
-    <!--map:cameraMinZoomPreference="12"-->
-    <!--map:cameraMaxZoomPreference="14"-->
-    <!--map:latLngBoundsSouthWestLatitude="-53.96"-->
-    <!--map:latLngBoundsSouthWestLongitude="-5.97"-->
-    <!--map:latLngBoundsNorthEastLatitude="-53.94"-->
-    <!--map:latLngBoundsNorthEastLongitude="-5.93"-->
-    <!--map:cameraTargetLat="-53.95"-->
-    <!--map:cameraTargetLng="-5.95"-->
-    <!--map:cameraZoom="12"-->
+
+    <RadioGroup
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/rbtnGroup"
+        android:checkedButton="@+id/rbtn1"
+        android:layout_centerVertical="true"
+        android:layout_alignParentEnd="true">
+
+        <RadioButton
+            android:text="Level 1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/rbtn1"
+            android:button="?android:attr/selectableItemBackground"
+            android:paddingBottom="5dp"
+            android:layout_weight="1"
+            android:textColor="@color/wallet_link_text_light" />
+
+        <RadioButton
+            android:text="Level 2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/rbtn2"
+            android:button="?android:attr/selectableItemBackground"
+            android:textColor="@color/wallet_bright_foreground_holo_light"
+            android:paddingBottom="5dp"
+            android:layout_weight="1" />
+
+        <RadioButton
+            android:text="Level 3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/rbtn3"
+            android:button="?android:attr/selectableItemBackground"
+            android:textColor="@color/wallet_bright_foreground_holo_light"
+            android:paddingBottom="5dp"
+            android:layout_weight="1" />
+
+        <RadioButton
+            android:text="Level 4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/rbtn4"
+            android:button="?android:attr/selectableItemBackground"
+            android:textColor="@color/wallet_bright_foreground_holo_light"
+            android:paddingBottom="5dp"
+            android:layout_weight="1" />
+
+        <RadioButton
+            android:text="Level 5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/rbtn5"
+            android:button="?android:attr/selectableItemBackground"
+            android:textColor="@color/wallet_bright_foreground_holo_light"
+            android:paddingBottom="5dp"
+            android:layout_weight="1" />
+
+        <RadioButton
+            android:text="Level 6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/rbtn6"
+            android:button="?android:attr/selectableItemBackground"
+            android:textColor="@color/wallet_bright_foreground_holo_light"
+            android:paddingBottom="5dp"
+            android:layout_weight="1" />
+
+        <RadioButton
+            android:text="Level 7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/rbtn7"
+            android:button="?android:attr/selectableItemBackground"
+            android:textColor="@color/wallet_bright_foreground_holo_light"
+            android:paddingBottom="5dp"
+            android:layout_weight="1" />
+    </RadioGroup>
+
+
 </RelativeLayout>
