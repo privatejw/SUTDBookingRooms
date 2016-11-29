@@ -12,15 +12,16 @@ import lol.wepekchek.istd.sutdbookingrooms.R;
  * Created by 1001827 on 29/11/16.
  */
 
-public class UpcomingBookings extends Fragment {private String title;
+public class UpcomingBookings extends Fragment {
+    private String title;
 
     // newInstance constructer for creating fragment with arguments
-    public static CurrentBookings newInstance(String title){
-        CurrentBookings currentBookings = new CurrentBookings();
+    public static UpcomingBookings newInstance(String title){
+        UpcomingBookings upcomingBookings = new UpcomingBookings();
         Bundle args = new Bundle();
         args.putString("title",title);
-        currentBookings.setArguments(args);
-        return currentBookings;
+        upcomingBookings.setArguments(args);
+        return upcomingBookings;
     }
 
     // Store instance variables based on arguments passed
