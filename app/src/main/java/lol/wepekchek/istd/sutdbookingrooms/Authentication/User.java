@@ -1,25 +1,32 @@
 package lol.wepekchek.istd.sutdbookingrooms.Authentication;
 
+import java.util.ArrayList;
+import java.util.Observable;
+import java.util.Observer;
+
 /**
  * Created by 1001827 on 29/11/16.
  */
 
 public class User implements Observer {
-    private String authorKey;
-    private Subject subject;
+    private ArrayList<String> authorKeys;
 
-    public User(Subject subject){
-        this.subject = subject;
+    public User(){
+    }
 
-        //register itself to the subject
-        this.subject.Attach(this);
+    public void addBooking(Booking booking){
+        booking.addObserver(this);
     }
 
     @Override
-    public void update(String newAuthorKey){
-        //get update from subject
-        this.authorKey = newAuthorKey;
-
-        //do something according to the update
+    public void update(Observable o, Object arg){
+        if (!(o instanceof Booking)){
+            return;
+        }
+        Booking b = (Booking) o;
+        if (arg!=null){
+            authorKeys.remove(arg);
+        }
+        authorKeys.add(b.getAuthorKey());
     }
 }

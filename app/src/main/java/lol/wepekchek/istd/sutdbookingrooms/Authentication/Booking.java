@@ -1,38 +1,32 @@
 package lol.wepekchek.istd.sutdbookingrooms.Authentication;
 
+
 import java.util.*;
 
 /**
  * Created by 1001827 on 29/11/16.
  */
 
-public class Booking implements Subject {
-    private String authorKey; //authorKey for the booking
-    private ArrayList<Observer> observers; //users registered for the room
+public class Booking extends Observable {
+    private String authorKey; // authorKey for the booking
 
-    public Booking(){
-        observers = new ArrayList<Observer>();
+    public Booking(String authorKey){
+        this.authorKey = authorKey;
     }
 
-    public void Attach(Observer o){
-        observers.add(o);
-    }
-
-    public void Detach(Observer o){
-        observers.remove(o);
-    }
-
-    public void refreshAccess(){
-
+    public String getAuthorKey(){
+        return this.authorKey;
     }
 
     public void refreshAccess(String newAuthorKey){
+        String oldAuthorKey = this.authorKey; // storing previous authorKey ??
         this.authorKey = newAuthorKey;
-        this.NotifyObservers();
+        notifyObservers(oldAuthorKey);
     }
 
-    private void NotifyObservers(){
-        for (Observer o:observers)
-            o.update(this.authorKey);
+    @Override
+    public void notifyObservers(Object arg){
+        setChanged();
+        super.notifyObservers(arg);
     }
 }
