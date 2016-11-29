@@ -1,11 +1,22 @@
 package lol.wepekchek.istd.sutdbookingrooms.Authentication;
 
+import android.app.AlertDialog;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.nfc.NfcAdapter;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.provider.Settings;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,8 +26,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.view.Display;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.WriterException;
@@ -24,13 +38,13 @@ import com.google.zxing.common.BitMatrix;
 
 import lol.wepekchek.istd.sutdbookingrooms.R;
 
+import java.util.HashMap;
 import java.util.UUID;
 
 import static android.graphics.Color.BLACK;
 import static android.graphics.Color.WHITE;
 
 /**
- * A fragment with a Google +1 button.
  * Activities that contain this fragment must implement the
  * {@link AuthenticationFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
@@ -43,16 +57,7 @@ public class AuthenticationFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    private DatabaseReference mDatabase;
-
-    private ImageView qrCode;
-    private TextView message;
-    private TextView countDown;
-    private int timer;
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    FragmentPagerAdapter adapterViewPager;
 
     private OnFragmentInteractionListener mListener;
 
@@ -81,12 +86,6 @@ public class AuthenticationFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-
-        mDatabase = FirebaseDatabase.getInstance().getReference();
     }
 
     @Override
@@ -96,87 +95,22 @@ public class AuthenticationFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_authentication, container, false);
 
         // Locate the elems
-        qrCode = (ImageView) view.findViewById(R.id.qrCode);
-        message = (TextView) view.findViewById(R.id.message);
-        countDown = (TextView) view.findViewById(R.id.countDown);
-
-        // Create QR onCreateView
-        createQR();
+        ViewPager vpPager = (ViewPager) view.findViewById(R.id.vpPager);
+        adapterViewPager = new MyPagerAdapter(getFragmentManager());
+        vpPager.setAdapter(adapterViewPager);
 
         return view;
     }
 
-    private void createQR(){
-        // Get QR String
-        String authorKey = UUID.randomUUID().toString().replace("-","").substring(0,20);
-
-        // Get screen size for QR code generation
-        Display display = ((WindowManager) getActivity().getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
-        int width = display.getWidth();
-        int height = display.getHeight();
-        int smallerDimension = width<height ? width:height;
-        smallerDimension = smallerDimension * 4/5;
-
-        //Encode with a QR Code image
-        try {
-            Bitmap bitmap = encodeAsBitmap(authorKey, smallerDimension);
-            qrCode.setImageBitmap(bitmap);
-            message.setText("Done! Here's your unique access code for the meeting room:");
-        } catch (WriterException e){
-            e.printStackTrace();
-            //qrCode.setImageDrawable(); put error image laterrrr
-            message.setText("Oops, we encountered an error generating your access code! Please try again.");
-        }
-
-        //Upload QR String to firebase
-        mDatabase.child("AuthorKey").setValue(authorKey);
-
-        //CountDown
-        rCountDown();
-
-    }
-
-    private void rCountDown(){
-        new CountDownTimer(600000,1000){
-            public void onTick(long millisUntilFinished){
-                countDown.setText("Code expiring in: " + Integer.valueOf((int) Math.floor(millisUntilFinished/60000)) + "m " + Integer.valueOf((int) Math.floor((millisUntilFinished-Math.floor(millisUntilFinished/60000)*60000)/1000)) + "s");
-            }
-
-            public void onFinish(){
-                countDown.setText("Code has expired. Please try again.");
-                createQR();
-                Toast.makeText(getContext(),"The previous access code has expired, code refreshed.",Toast.LENGTH_SHORT).show();
-            }
-        }.start();
-    }
-
-    private Bitmap encodeAsBitmap(String str, Integer width) throws WriterException {
-        BitMatrix result;
-        try {
-            result = new MultiFormatWriter().encode(str, BarcodeFormat.QR_CODE, width, width, null);
-        } catch (IllegalArgumentException e){
-            return null;
-        }
-
-        int w = result.getWidth();
-        int h = result.getHeight();
-        int[] pixels = new int[w*h];
-
-        for (int y=0;y<h;y++){
-            int offset = y*w;
-            for (int x=0;x<w;x++){
-                pixels[offset+x]=result.get(x,y) ? BLACK:WHITE;
-            }
-        }
-
-        Bitmap bitmap = Bitmap.createBitmap(w,h, Bitmap.Config.ARGB_8888);
-        bitmap.setPixels(pixels,0,width,0,0,w,h);
-        return bitmap;
-    }
 
     @Override
     public void onResume() {
         super.onResume();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -185,7 +119,6 @@ public class AuthenticationFragment extends Fragment {
             mListener.onFragmentInteraction(uri);
         }
     }
-
 
     /**
      * This interface must be implemented by activities that contain this
@@ -200,6 +133,46 @@ public class AuthenticationFragment extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+
+    public static class MyPagerAdapter extends FragmentPagerAdapter {
+        private static int NUM_ITEMS = 2;
+
+        public MyPagerAdapter(FragmentManager fragmentManager){
+            super(fragmentManager);
+        }
+
+        // Returns total number of pages
+        @Override
+        public int getCount() {
+            return NUM_ITEMS;
+        }
+
+        // Returns the fragment to display for that page
+        @Override
+        public Fragment getItem(int position){
+            switch (position){
+                case 0: //CurrentBookings Fragment
+                    return CurrentBookings.newInstance("Current");
+                case 1: //UpcomingBookings Fragment
+                    return UpcomingBookings.newInstance("Upcoming");
+                default:
+                    return null;
+            }
+        }
+
+        // Returns page title for the top indicator
+        @Override
+        public CharSequence getPageTitle(int position){
+            switch (position){
+                case 0: //CurrentBookings Fragment
+                    return "Current";
+                case 1: //UpcomingBookings Fragment
+                    return "Upcoming";
+                default:
+                    return null;
+            }
+        }
     }
 
 }

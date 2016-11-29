@@ -26,6 +26,9 @@
     <!-- QR Code Generator -->
     <uses-permission android:name="android.permission.WRITE_INTERNAL_STORAGE"/>
 
+    <!-- NFC Tag -->
+    <uses-permission android:name="android.permission.NFC" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
