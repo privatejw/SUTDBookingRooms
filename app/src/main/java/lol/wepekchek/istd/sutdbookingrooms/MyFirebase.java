@@ -1,4 +1,4 @@
-package lol.wepekchek.istd.sutdbookingrooms.RoomSearch;
+package lol.wepekchek.istd.sutdbookingrooms;
 
 
 public class MyFirebase {
