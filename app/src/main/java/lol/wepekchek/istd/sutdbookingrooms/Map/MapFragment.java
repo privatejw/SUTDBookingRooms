@@ -3,6 +3,7 @@ package lol.wepekchek.istd.sutdbookingrooms.Map;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -147,6 +148,7 @@ public class MapFragment extends Fragment implements
 
     @Override
     public void onMapClick(LatLng latLng) {
+        Log.i("Location: ", ""+latLng.latitude+", "+latLng.longitude);
         txtMapSearch.setText(txtMapSearch.getText().toString()+"\n"+latLng.latitude+", "+latLng.longitude);
     }
 
