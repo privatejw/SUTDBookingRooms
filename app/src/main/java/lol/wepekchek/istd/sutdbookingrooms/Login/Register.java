@@ -46,7 +46,8 @@ public class Register extends AppCompatActivity {
                 if (studentID.getText().toString().length() == 7 && studentID.getText().toString().matches("[0-9]*")) {
                     final ProgressDialog progressDialog = ProgressDialog.show(Register.this, "Please wait...", "Processing...", true);
                     String email = studentID.getText().toString() + "@mymail.sutd.edu.sg";
-                    String password = mngr.getDeviceId().toString();
+                    String password = mngr.getDeviceId();
+                    //String password="password"; //getDeviceId() crashes app
 
                     (mAuth.createUserWithEmailAndPassword(email, "123f0v92mcas"))
                             .addOnCompleteListener(new OnCompleteListener<AuthResult>() {

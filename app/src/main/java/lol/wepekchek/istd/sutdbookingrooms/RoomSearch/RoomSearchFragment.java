@@ -4,6 +4,8 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +15,10 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import lol.wepekchek.istd.sutdbookingrooms.Authentication.AuthenticationFragment;
+import lol.wepekchek.istd.sutdbookingrooms.BaseActivity;
+import lol.wepekchek.istd.sutdbookingrooms.Booking.BookingFragment;
+import lol.wepekchek.istd.sutdbookingrooms.Map.MapFragment;
 import lol.wepekchek.istd.sutdbookingrooms.R;
 
 import com.google.firebase.database.DataSnapshot;
@@ -22,6 +28,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 
@@ -39,8 +46,6 @@ public class RoomSearchFragment extends Fragment {
         // Required empty public constructor
     }
 
-
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,8 +57,6 @@ public class RoomSearchFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_room_search, container, false);
-
-        //setupSpinner(view,daySpinner,R.array.days_array,R.id.spinner);
 
         daySpinner = (Spinner) view.findViewById(R.id.spinner);
         // Create an ArrayAdapter using the string array and a default spinner layout
@@ -92,7 +95,6 @@ public class RoomSearchFragment extends Fragment {
         adapter5.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         durationSpinner.setAdapter(adapter5);
 
-
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
         button=(Button) view.findViewById(R.id.button);
@@ -102,19 +104,14 @@ public class RoomSearchFragment extends Fragment {
             public void onClick(View v)
             {
                 if (v==v.findViewById(R.id.button))viewData(v);
-
             }
         });
-
         return view;
     }
 
     @Override
     public void onResume() {
         super.onResume();
-
-        // Refresh the state of the +1 button each time the activity receives focus.
-        //mPlusOneButton.initialize(PLUS_ONE_URL, PLUS_ONE_REQUEST_CODE);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -123,8 +120,6 @@ public class RoomSearchFragment extends Fragment {
             mListener.onFragmentInteraction(uri);
         }
     }
-
-
 
     /**
      * This interface must be implemented by activities that contain this
@@ -141,7 +136,6 @@ public class RoomSearchFragment extends Fragment {
         void onFragmentInteraction(Uri uri);
     }
 
-
     public void viewData(View view) {
         String[] hours=new String[Integer.parseInt(durationSpinner.getSelectedItem().toString())];
         int hour=Integer.parseInt(hourSpinner.getSelectedItem().toString());
@@ -152,10 +146,6 @@ public class RoomSearchFragment extends Fragment {
             hour+=100;
         }
         //Toast.makeText(getActivity(), Arrays.toString(hours), Toast.LENGTH_SHORT).show();
-        final String dateAndTime = daySpinner.getSelectedItem().toString()+
-                monthSpinner.getSelectedItem().toString()+
-                yearSpinner.getSelectedItem().toString()+
-                hourSpinner.getSelectedItem().toString();
         times =new String[hours.length];
         for (int i=0;i<hours.length;i++){
             times[i]= daySpinner.getSelectedItem().toString()+
@@ -172,7 +162,8 @@ public class RoomSearchFragment extends Fragment {
                         data = (HashMap) dataSnapshot.getValue();
                         String[] rooms={"55L2","55L9"};
                         String availableRooms="";
-                        boolean isTaken=false;
+                        boolean isTaken;
+                        ArrayList<String> listOfAvailableRooms=new ArrayList<String>();
                         for (String room:rooms){
                             isTaken=false;
                             for (String time:times){
@@ -181,13 +172,30 @@ public class RoomSearchFragment extends Fragment {
                                     break;
                                 }
                             }
-                            if(!isTaken)availableRooms+=room+" ";
+                            if(!isTaken){
+                                availableRooms+=room+" ";
+                                listOfAvailableRooms.add(room);
+                            }
                         }
 //                        if(dataSnapshot.hasChild(dateAndTime))Toast.makeText(getActivity(), "taken", Toast.LENGTH_SHORT).show();
 //                        else{Toast.makeText(getActivity(), "55lvl2 available on chosen timing for 1 hr", Toast.LENGTH_SHORT).show();}
-                        Toast.makeText(getActivity(), "Available rooms: "+availableRooms, Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(getActivity(), "Available rooms: "+availableRooms, Toast.LENGTH_SHORT).show();
+
+                        BookingFragment ldf = new BookingFragment();
+                        Bundle args = new Bundle();
+                        args.putStringArrayList("listOfAvailableRooms", listOfAvailableRooms);
+                        ldf.setArguments(args);
+
+                        FragmentManager fragmentManager = getChildFragmentManager();
+                        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                        //fragmentTransaction.add(R.id.booking, ldf);
+                        fragmentTransaction.replace(R.id.activity_main, ldf);
+                        fragmentTransaction.commit();
+
+                        Toast.makeText(getActivity(), "Available rooms: "+listOfAvailableRooms.toString(), Toast.LENGTH_SHORT).show();
                     } catch (Exception ex) {
                         Toast.makeText(getActivity(), "Error", Toast.LENGTH_SHORT).show();
+                        ex.printStackTrace();
                     }
 
                 }
@@ -199,7 +207,6 @@ public class RoomSearchFragment extends Fragment {
         } catch (Exception ex) {
             Toast.makeText(getActivity(), "Exception", Toast.LENGTH_SHORT).show();
         }
+
     }
-
-
 }
