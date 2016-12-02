@@ -6,102 +6,85 @@
     android:layout_height="match_parent"
     tools:context="Map.MapFragment">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:ems="10"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true"
-        android:id="@+id/txtMapSearch"
-        android:ellipsize="none"
-        android:scrollHorizontally="false"
-        android:layout_height="wrap_content"
-        android:maxLines="100"
-        android:maxEms="10" />
-
     <fragment
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/sutdMap"
-        class="com.google.android.gms.maps.SupportMapFragment"
-        android:layout_below="@+id/txtMapSearch" />
+        class="com.google.android.gms.maps.SupportMapFragment" />
 
     <RadioGroup
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/rbtnGroup"
         android:checkedButton="@+id/rbtn1"
-        android:layout_centerVertical="true"
-        android:layout_alignParentEnd="true">
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="13dp"
+        android:layout_marginBottom="13dp">
 
-        <RadioButton
-            android:text="Level 1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <Button
+            android:text="1"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:id="@+id/rbtn1"
-            android:button="?android:attr/selectableItemBackground"
-            android:paddingBottom="5dp"
             android:layout_weight="1"
-            android:textColor="@color/wallet_link_text_light" />
+            android:textColor="@color/wallet_bright_foreground_holo_light"
+            android:background="?android:attr/selectableItemBackground" />
 
-        <RadioButton
-            android:text="Level 2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <Button
+            android:text="2"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:id="@+id/rbtn2"
-            android:button="?android:attr/selectableItemBackground"
+            android:background="?android:attr/selectableItemBackground"
             android:textColor="@color/wallet_bright_foreground_holo_light"
-            android:paddingBottom="5dp"
             android:layout_weight="1" />
 
-        <RadioButton
-            android:text="Level 3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <Button
+            android:text="3"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:id="@+id/rbtn3"
-            android:button="?android:attr/selectableItemBackground"
+            android:background="?android:attr/selectableItemBackground"
             android:textColor="@color/wallet_bright_foreground_holo_light"
-            android:paddingBottom="5dp"
             android:layout_weight="1" />
 
-        <RadioButton
-            android:text="Level 4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <Button
+            android:text="4"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:id="@+id/rbtn4"
-            android:button="?android:attr/selectableItemBackground"
+            android:background="?android:attr/selectableItemBackground"
             android:textColor="@color/wallet_bright_foreground_holo_light"
-            android:paddingBottom="5dp"
             android:layout_weight="1" />
 
-        <RadioButton
-            android:text="Level 5"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <Button
+            android:text="5"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:id="@+id/rbtn5"
-            android:button="?android:attr/selectableItemBackground"
+            android:background="?android:attr/selectableItemBackground"
             android:textColor="@color/wallet_bright_foreground_holo_light"
-            android:paddingBottom="5dp"
             android:layout_weight="1" />
 
-        <RadioButton
-            android:text="Level 6"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <Button
+            android:text="6"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:id="@+id/rbtn6"
-            android:button="?android:attr/selectableItemBackground"
+            android:background="?android:attr/selectableItemBackground"
             android:textColor="@color/wallet_bright_foreground_holo_light"
-            android:paddingBottom="5dp"
             android:layout_weight="1" />
 
-        <RadioButton
-            android:text="Level 7"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <Button
+            android:text="7"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:id="@+id/rbtn7"
-            android:button="?android:attr/selectableItemBackground"
+            android:background="?android:attr/selectableItemBackground"
             android:textColor="@color/wallet_bright_foreground_holo_light"
-            android:paddingBottom="5dp"
             android:layout_weight="1" />
+
     </RadioGroup>
 
 

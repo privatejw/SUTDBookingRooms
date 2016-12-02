@@ -7,6 +7,8 @@ import java.util.HashMap;
 
 public class RoomDatabase {
     public static HashMap<Integer, HashMap<LatLng, String>> database = null;
+    public static HashMap<String, String> roomIdToName = null;
+    public static HashMap<String, String> roomNameToId = null;
 
     // following are hardcoded values
     static void initialize() {
@@ -177,5 +179,173 @@ public class RoomDatabase {
         database.get(7).put(new LatLng(-53.945673663341594, -5.998277328908443), "2.707");
         database.get(7).put(new LatLng(-53.945186064336400, -6.004004850983620), "2.708");
         database.get(7).put(new LatLng(-53.945607953245440, -6.011965312063694), "2.709");
+
+        roomIdToName = new HashMap<String, String>();
+
+        roomIdToName.put("2.108", "");
+        roomIdToName.put("2.109", "");
+        roomIdToName.put("2.113", "");
+        roomIdToName.put("2.115", "");
+        roomIdToName.put("2.117", "");
+        roomIdToName.put("2.118", "");
+        roomIdToName.put("2.120", "");
+        roomIdToName.put("2.102", "");
+        roomIdToName.put("2.103", "");
+        roomIdToName.put("1.102", "Lecture Theatre 1");
+
+        roomIdToName.put("1.202", "Library Level 2");
+        roomIdToName.put("1.203", "Lecture Theatre 2");
+        roomIdToName.put("1.204", "");
+        roomIdToName.put("2.201", "Think Tank 16");
+        roomIdToName.put("2.202", "Think Tank 17");
+        roomIdToName.put("2.203", "Think Tank 18");
+        roomIdToName.put("2.206", "Office of Information Technology");
+        roomIdToName.put("2.207", "Clean Room");
+        roomIdToName.put("2.208", "");
+        roomIdToName.put("3.202", "Lee Kuan Yew Centre");
+        roomIdToName.put("3.203", "");
+        roomIdToName.put("3.204", "Space Bar");
+        roomIdToName.put("3.205", "");
+
+        roomIdToName.put("1.302", "EPD HQ");
+        roomIdToName.put("1.304", "Graduate Studies Cluster 1");
+        roomIdToName.put("1.307", "");
+        roomIdToName.put("1.308", "Think Tank 1");
+        roomIdToName.put("1.309", "Think Tank 2");
+        roomIdToName.put("1.310", "Think Tank 3");
+        roomIdToName.put("1.311", "");
+        roomIdToName.put("1.312", "Think Tank 4");
+        roomIdToName.put("1.313", "Think Tank 5");
+        roomIdToName.put("1.314", "Cohort Classroom 1");
+        roomIdToName.put("1.315", "Cohort Classroom 2");
+        roomIdToName.put("2.301", "Corporate Lab Office");
+        roomIdToName.put("2.303", "Fab Lab Satellite 2");
+        roomIdToName.put("2.304", "Think Tank 19");
+        roomIdToName.put("2.305", "Think Tank 20");
+        roomIdToName.put("2.306", "");
+        roomIdToName.put("2.307", "Cohort Classroom 9");
+        roomIdToName.put("2.308", "Cohort Classroom 10");
+        roomIdToName.put("2.309", "");
+        roomIdToName.put("2.310", "Think Tank 21");
+        roomIdToName.put("2.311", "Think Tank 22");
+        roomIdToName.put("2.313", "Arms Lab 1 & 2");
+        roomIdToName.put("2.314", "Arms Lab 3");
+        roomIdToName.put("2.315", "Graduate Studies Cluster 5");
+        roomIdToName.put("2.316", "Game Lab");
+        roomIdToName.put("3.301", "Gutenberg Collaboration Space");
+        roomIdToName.put("3.302", "Office of International Relations");
+        roomIdToName.put("3.304", "");
+        roomIdToName.put("3.306", "");
+        roomIdToName.put("3.310", "");
+        roomIdToName.put("3.311", "");
+
+        roomIdToName.put("1.403", "");
+        roomIdToName.put("1.404", "Staff Lounge Sparks");
+        roomIdToName.put("1.405", "");
+        roomIdToName.put("1.407", "");
+        roomIdToName.put("1.408", "Think Tank 6");
+        roomIdToName.put("1.409", "Think Tank 7");
+        roomIdToName.put("1.410", "Think Tank 8");
+        roomIdToName.put("1.411", "CS1");
+        roomIdToName.put("1.412", "CS2");
+        roomIdToName.put("1.413", "Cohort Classroom 3");
+        roomIdToName.put("1.414", "Cohort Classroom 4");
+        roomIdToName.put("1.415", "Think Tank 9");
+        roomIdToName.put("1.416", "Think Tank 10");
+        roomIdToName.put("1.417", "Graduate Studies Cluster 7");
+        roomIdToName.put("2.402", "Fab Lab Satellite 3");
+        roomIdToName.put("2.405", "Cohort Classroom 11");
+        roomIdToName.put("2.406", "Cohort Classroom 12");
+        roomIdToName.put("2.407", "");
+        roomIdToName.put("2.408", "CS7");
+        roomIdToName.put("2.409", "CS8");
+        roomIdToName.put("2.411", "Physics Lab");
+        roomIdToName.put("2.412", "Digital Systems Lab");
+        roomIdToName.put("2.413", "Think Tank 23");
+        roomIdToName.put("2.415", "");
+        roomIdToName.put("3.401", "Buckminister Fuller Collaboration Space");
+
+        roomIdToName.put("1.503", "Think Tank 11");
+        roomIdToName.put("1.504", "IDer Studio");
+        roomIdToName.put("1.505", "Plotter Room");
+        roomIdToName.put("1.506", "Think Tank 12");
+        roomIdToName.put("1.507", "");
+        roomIdToName.put("1.508", "Think Tank 13");
+        roomIdToName.put("1.509", "Think Tank 14");
+        roomIdToName.put("1.510", "Think Tank 15");
+        roomIdToName.put("1.511", "CS3");
+        roomIdToName.put("1.512", "CS4");
+        roomIdToName.put("1.513", "CS5");
+        roomIdToName.put("1.514", "CS6");
+        roomIdToName.put("1.515", "");
+        roomIdToName.put("1.516", "");
+        roomIdToName.put("1.517", "Wellbeing Services");
+        roomIdToName.put("1.518", "Wellbeing Services");
+        roomIdToName.put("1.519", "Photo & Video Lab");
+        roomIdToName.put("2.502", "Fab Lab Satellite 4");
+        roomIdToName.put("2.503", "Think Tank 24");
+        roomIdToName.put("2.504", "Think Tank 25");
+        roomIdToName.put("2.506", "Lecture Theatre 5");
+        roomIdToName.put("2.507", "Cohort Classroom 14");
+        roomIdToName.put("2.508", "");
+        roomIdToName.put("2.509", "CS9");
+        roomIdToName.put("2.510", "CS10");
+        roomIdToName.put("2.513", "Tissue Culture Room");
+        roomIdToName.put("2.514", "Think Tank 26");
+        roomIdToName.put("2.515", "Electronic Design Lab");
+        roomIdToName.put("3.507", "");
+        roomIdToName.put("3.508", "");
+
+        roomIdToName.put("1.603", "");
+        roomIdToName.put("1.604", "");
+        roomIdToName.put("1.605", "Information Systems Lab");
+        roomIdToName.put("1.606", "CS5");
+        roomIdToName.put("1.607", "CS6");
+        roomIdToName.put("1.608", "Cohort Classroom 7");
+        roomIdToName.put("1.609", "Cohort Classroom 8");
+        roomIdToName.put("1.610", "Trading Lab");
+        roomIdToName.put("1.611", "Computer Lab");
+        roomIdToName.put("1.612", "LEET Lab");
+        roomIdToName.put("1.613", "");
+        roomIdToName.put("1.614", "SUTD-SMU Collaboration Office");
+        roomIdToName.put("1.615", "System Modelling Lab");
+        roomIdToName.put("2.601", "Urban Cluster");
+        roomIdToName.put("2.602", "Plotter Room (Sat 5)");
+        roomIdToName.put("2.603", "");
+        roomIdToName.put("2.604", "");
+        roomIdToName.put("2.605", "IDiA Lab");
+        roomIdToName.put("2.606", "Cohort Classroom 15");
+        roomIdToName.put("2.607", "Cohort Classroom 16");
+        roomIdToName.put("2.608", "");
+        roomIdToName.put("2.609", "");
+        roomIdToName.put("2.610", "Cognition Lab");
+        roomIdToName.put("2.611", "");
+        roomIdToName.put("2.612", "");
+        roomIdToName.put("2.614", "Characterisation Lab");
+        roomIdToName.put("2.615", "Characterisation Lab");
+        roomIdToName.put("2.616", "");
+        roomIdToName.put("2.617", "");
+        roomIdToName.put("2.619", "Studio 5");
+        roomIdToName.put("2.620", "Studio 6");
+
+        roomIdToName.put("1.703", "Robotics Innovation Lab");
+        roomIdToName.put("1.704", "Robotics Innovation Lab");
+        roomIdToName.put("1.705", "iTrust Lab 4");
+        roomIdToName.put("1.706", "DManD Office");
+        roomIdToName.put("1.707", "");
+        roomIdToName.put("1.708", "");
+        roomIdToName.put("1.709", "Graduate Studies Cluster 2");
+        roomIdToName.put("1.710", "Graduate Studies Cluster 3");
+        roomIdToName.put("2.707", "Furnace Lab");
+        roomIdToName.put("2.708", "Composite Fabrication Lab");
+        roomIdToName.put("2.709", "");
+
+        roomNameToId = new HashMap<String, String>();
+
+        String name;
+        for (String id: roomIdToName.keySet()) {
+            name = roomIdToName.get(id);
+            if (!name.equals("")) roomNameToId.put(name+" ("+id+")", id);
+        }
     }
 }

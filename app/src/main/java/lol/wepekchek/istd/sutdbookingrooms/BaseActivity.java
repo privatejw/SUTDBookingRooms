@@ -18,6 +18,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.google.android.gms.maps.model.LatLng;
+
 import java.util.ArrayList;
 
 import lol.wepekchek.istd.sutdbookingrooms.Authentication.AuthenticationFragment;
@@ -110,7 +112,7 @@ public class BaseActivity extends AppCompatActivity
         } else if (id == R.id.f_authentication) {
             fragment = new AuthenticationFragment();
         } else if (id == R.id.nav_send) {
-            fragment = new MapFragment();
+            fragment = new MapFragment().newInstance(3, new LatLng(-53.965623629921105, -5.974991060793399));
         } else {
             fragment = new MapFragment();
         }
