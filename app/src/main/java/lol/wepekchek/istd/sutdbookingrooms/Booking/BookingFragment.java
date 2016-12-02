@@ -9,7 +9,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.TextView;
 
+import lol.wepekchek.istd.sutdbookingrooms.BaseActivity;
 import lol.wepekchek.istd.sutdbookingrooms.R;
 
 import com.google.android.gms.plus.PlusOneButton;
@@ -74,12 +76,16 @@ public class BookingFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_booking, container, false);
         // Array of choices
         String colors[] = {"Red","Blue","White","Yellow","Black", "Green","Purple","Orange","Grey"};
+        ArrayList<String> listOfAvailableRooms=((BaseActivity)getActivity()).getListOfAvailableRooms();
+        String timing=((BaseActivity)getActivity()).getTiming();
+        TextView t=(TextView)view.findViewById(R.id.textView4);
+        t.setText("Available rooms for timeslot "+timing);
 
         // Selection of the spinner
         Spinner spinner = (Spinner) view.findViewById(R.id.spinner6);
 
         // Application of the Array to the Spinner
-        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<>(this.getActivity(),android.R.layout.simple_spinner_item, colors);
+        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<>(this.getActivity(),android.R.layout.simple_spinner_item, listOfAvailableRooms);
         spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); // The drop down view
         spinner.setAdapter(spinnerArrayAdapter);
 

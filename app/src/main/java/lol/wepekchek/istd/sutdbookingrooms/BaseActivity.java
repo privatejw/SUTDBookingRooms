@@ -18,6 +18,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
 import lol.wepekchek.istd.sutdbookingrooms.Authentication.AuthenticationFragment;
 import lol.wepekchek.istd.sutdbookingrooms.Booking.BookingFragment;
 import lol.wepekchek.istd.sutdbookingrooms.Map.MapFragment;
@@ -26,6 +28,8 @@ import lol.wepekchek.istd.sutdbookingrooms.RoomSearch.RoomSearchFragment;
 public class BaseActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     FragmentManager fm;
+    ArrayList<String> listOfAvailableRooms=new ArrayList<>();
+    String timing="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -148,6 +152,19 @@ public class BaseActivity extends AppCompatActivity
         }
     }
 
+    public ArrayList<String> getListOfAvailableRooms() {
+        return listOfAvailableRooms;
+    }
 
+    public void setListOfAvailableRooms(ArrayList<String> listOfAvailableRooms) {
+        this.listOfAvailableRooms = listOfAvailableRooms;
+    }
 
+    public String getTiming() {
+        return timing;
+    }
+
+    public void setTiming(String timing) {
+        this.timing = timing;
+    }
 }

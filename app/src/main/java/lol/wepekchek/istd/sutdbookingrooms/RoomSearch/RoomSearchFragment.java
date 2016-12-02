@@ -39,6 +39,7 @@ public class RoomSearchFragment extends Fragment {
     private Spinner daySpinner,monthSpinner,yearSpinner,hourSpinner,durationSpinner;
     private Button button;
     private String[] times;
+    FragmentManager fragmentManager;
 
     private OnFragmentInteractionListener mListener;
 
@@ -137,9 +138,10 @@ public class RoomSearchFragment extends Fragment {
     }
 
     public void viewData(View view) {
-        String[] hours=new String[Integer.parseInt(durationSpinner.getSelectedItem().toString())];
+        int duration=Integer.parseInt(durationSpinner.getSelectedItem().toString());
+        String[] hours=new String[duration];
         int hour=Integer.parseInt(hourSpinner.getSelectedItem().toString());
-        for (int i=1;i<=Integer.parseInt(durationSpinner.getSelectedItem().toString());i++){
+        for (int i=1;i<=duration;i++){
             if (hour==0)hours[i-1]="0000";
             else if (hour<=900)hours[i-1]="0"+String.valueOf(hour);
             else hours[i-1]=String.valueOf(hour);
@@ -152,6 +154,9 @@ public class RoomSearchFragment extends Fragment {
                     monthSpinner.getSelectedItem().toString()+
                     yearSpinner.getSelectedItem().toString()+ hours[i];
         }
+        ((BaseActivity)getActivity()).setTiming("\n"+daySpinner.getSelectedItem().toString()+" "
+                +monthSpinner.getSelectedItem().toString()+" "
+                +yearSpinner.getSelectedItem().toString()+" "+hourSpinner.getSelectedItem().toString()+" HRS");
         Toast.makeText(getActivity(), Arrays.toString(times), Toast.LENGTH_SHORT).show();
         Query myQuery = mDatabase.child("Rooms");
         try {
@@ -185,8 +190,9 @@ public class RoomSearchFragment extends Fragment {
                         Bundle args = new Bundle();
                         args.putStringArrayList("listOfAvailableRooms", listOfAvailableRooms);
                         ldf.setArguments(args);
+                        ((BaseActivity)getActivity()).setListOfAvailableRooms(listOfAvailableRooms);
 
-                        FragmentManager fragmentManager = getChildFragmentManager();
+                        fragmentManager = getChildFragmentManager();
                         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                         //fragmentTransaction.add(R.id.booking, ldf);
                         fragmentTransaction.replace(R.id.activity_main, ldf);
