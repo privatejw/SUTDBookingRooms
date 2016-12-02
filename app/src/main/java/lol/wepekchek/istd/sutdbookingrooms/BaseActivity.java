@@ -58,7 +58,7 @@ public class BaseActivity extends AppCompatActivity
 
         // start of own code
         fm = getSupportFragmentManager();
-        RoomDatabase.initialize();
+        if (RoomDatabase.database == null) RoomDatabase.initialize();
     }
 
     @Override

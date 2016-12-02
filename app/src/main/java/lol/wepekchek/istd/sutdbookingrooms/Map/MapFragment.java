@@ -1,14 +1,15 @@
 package lol.wepekchek.istd.sutdbookingrooms.Map;
 
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,8 +19,12 @@ import lol.wepekchek.istd.sutdbookingrooms.RoomDatabase;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMap.OnCameraIdleListener;
+import com.google.android.gms.maps.GoogleMap.OnMapClickListener;
+import com.google.android.gms.maps.GoogleMap.OnInfoWindowClickListener;
+import com.google.android.gms.maps.GoogleMap.OnCircleClickListener;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.UiSettings;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.Circle;
@@ -35,8 +40,10 @@ import java.util.ArrayList;
 
 public class MapFragment extends Fragment implements
         OnCameraIdleListener,
+        OnInfoWindowClickListener,
+        OnCircleClickListener,
         OnMapReadyCallback,
-        GoogleMap.OnMapClickListener {
+        OnMapClickListener {
     GoogleMap mMap;
     TextView txtMapSearch;
     GroundOverlay[] groundOverlays;
@@ -45,7 +52,9 @@ public class MapFragment extends Fragment implements
     ArrayList<Circle> circles;
     ArrayList<Marker> markers;
 
-    public MapFragment() {}
+    public MapFragment() {
+        currentLevel = 1;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -54,7 +63,6 @@ public class MapFragment extends Fragment implements
 
         txtMapSearch = (TextView) view.findViewById(R.id.txtMapSearch);
         groundOverlays = new GroundOverlay[8];
-        currentLevel = 1;
         circles = new ArrayList<Circle>();
         markers = new ArrayList<Marker>();
 
@@ -121,21 +129,18 @@ public class MapFragment extends Fragment implements
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+        mMap.getUiSettings().setMapToolbarEnabled(false);
         mMap.setMapType(GoogleMap.MAP_TYPE_NONE);
         mMap.setMinZoomPreference(12);
         mMap.setMaxZoomPreference(14);
         mMap.setLatLngBoundsForCameraTarget(new LatLngBounds(
-                new LatLng(-53.96, -5.98), new LatLng(-53.94, -5.92)));
+                new LatLng(-53.99, -5.99), new LatLng(-53.91, -5.91)));
         mMap.animateCamera(CameraUpdateFactory.newCameraPosition(new CameraPosition.Builder()
                 .target(new LatLng(-53.95, -5.95)).zoom(12).bearing(0).tilt(0).build()));
-        mMap.setOnCameraIdleListener(this);
-        mMap.setOnMapClickListener(this);
-        mMap.setOnCircleClickListener(new GoogleMap.OnCircleClickListener() {
-            @Override
-            public void onCircleClick(Circle circle) {
-                circleClicked(circle);
-            }
-        });
+        mMap.setOnInfoWindowClickListener(this);
+//        mMap.setOnCircleClickListener(this);
+//        mMap.setOnCameraIdleListener(this);
+//        mMap.setOnMapClickListener(this);
 
         addOverlays();
         addCircles(currentLevel);
@@ -150,6 +155,30 @@ public class MapFragment extends Fragment implements
     public void onMapClick(LatLng latLng) {
         Log.i("Location: ", ""+latLng.latitude+", "+latLng.longitude);
         txtMapSearch.setText(txtMapSearch.getText().toString()+"\n"+latLng.latitude+", "+latLng.longitude);
+    }
+
+    @Override
+    public void onInfoWindowClick(Marker marker) {
+        final Marker m = marker;
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setMessage("Do you wish to view information about this room?")
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        Toast.makeText(getContext(), m.getTitle(), Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        // User cancelled the dialog
+                    }
+                });
+        builder.create().show();
+    }
+
+    @Override
+    public void onCircleClick(Circle circle) {
+        if (circle.getCenter().equals(new LatLng(-53.95, -5.95)))
+            Toast.makeText(getContext(), circle.getCenter().toString(), Toast.LENGTH_SHORT).show();
     }
 
     private void changeLevel(int newLevel) {
@@ -171,7 +200,7 @@ public class MapFragment extends Fragment implements
                 .image(BitmapDescriptorFactory.fromResource(R.drawable.lvl1))
                 .anchor(0.5f, 0.5f)
                 .position(new LatLng(-53.95, -5.95), 10270f, 6370f)
-                .visible(true));
+                .visible(false));
         groundOverlays[2] = mMap.addGroundOverlay(new GroundOverlayOptions()
                 .image(BitmapDescriptorFactory.fromResource(R.drawable.lvl2))
                 .anchor(0.5f, 0.5f)
@@ -202,11 +231,7 @@ public class MapFragment extends Fragment implements
                 .anchor(0.5f, 0.5f)
                 .position(new LatLng(-53.95, -5.95), 10270f, 6370f)
                 .visible(false));
-    }
-
-    private void circleClicked(Circle circle) {
-        if (circle.getCenter().equals(new LatLng(-53.95, -5.95)))
-            Toast.makeText(getContext(), circle.getCenter().toString(), Toast.LENGTH_SHORT).show();
+        groundOverlays[currentLevel].setVisible(true);
     }
 
     private void addCircles(int level) {

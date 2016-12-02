@@ -6,7 +6,7 @@ import com.google.android.gms.maps.model.LatLng;
 import java.util.HashMap;
 
 public class RoomDatabase {
-    public static HashMap<Integer, HashMap<LatLng, String>> database;
+    public static HashMap<Integer, HashMap<LatLng, String>> database = null;
 
     // following are hardcoded values
     static void initialize() {
@@ -77,8 +77,105 @@ public class RoomDatabase {
         database.get(3).put(new LatLng(-53.929081834179250, -5.902506038546563), "3.310");
         database.get(3).put(new LatLng(-53.923605236564230, -5.902506038546563), "3.311");
 
-//        database.get(4).put(new LatLng(), "");
-//        database.get(5).put(new LatLng(), "");
-//        database.get(6).put(new LatLng(), "");
+        database.get(4).put(new LatLng(-53.969911847919064, -5.978311970829964), "1.403");
+        database.get(4).put(new LatLng(-53.972790857783160, -5.998185798525810), "1.404");
+        database.get(4).put(new LatLng(-53.971494844805880, -5.982206538319589), "1.405");
+        database.get(4).put(new LatLng(-53.969019647769876, -5.983809493482114), "1.407");
+        database.get(4).put(new LatLng(-53.970082239409216, -5.987475737929345), "1.408");
+        database.get(4).put(new LatLng(-53.969729031274696, -5.991600304841995), "1.409");
+        database.get(4).put(new LatLng(-53.968667811160020, -5.996582843363286), "1.410");
+        database.get(4).put(new LatLng(-53.965894232812780, -6.003798320889472), "1.411");
+        database.get(4).put(new LatLng(-53.963487541054135, -6.004771627485751), "1.412");
+        database.get(4).put(new LatLng(-53.959901308603335, -6.008092537522316), "1.413");
+        database.get(4).put(new LatLng(-53.959076555775475, -5.998987443745136), "1.414");
+        database.get(4).put(new LatLng(-53.960608874741840, -5.978311970829964), "1.415");
+        database.get(4).put(new LatLng(-53.960727031396310, -5.972814448177814), "1.416");
+        database.get(4).put(new LatLng(-53.964819700180580, -5.976020693778991), "1.417");
+        database.get(4).put(new LatLng(-53.943579769102160, -5.962085947394372), "2.402");
+        database.get(4).put(new LatLng(-53.946412253487374, -5.999880284070969), "2.405");
+        database.get(4).put(new LatLng(-53.944878820757040, -6.007497422397137), "2.406");
+        database.get(4).put(new LatLng(-53.942403819160894, -6.012766622006893), "2.407");
+        database.get(4).put(new LatLng(-53.939656517780430, -6.011278666555881), "2.408");
+        database.get(4).put(new LatLng(-53.936640415508045, -6.010075695812701), "2.409");
+        database.get(4).put(new LatLng(-53.932345221680660, -5.989801883697511), "2.411");
+        database.get(4).put(new LatLng(-53.931450835695780, -5.981611087918281), "2.412");
+        database.get(4).put(new LatLng(-53.935512824359370, -5.976113900542259), "2.413");
+        database.get(4).put(new LatLng(-53.930812653620360, -5.971417687833309), "2.415");
+        database.get(4).put(new LatLng(-53.945803899262290, -5.903787799179553), "3.401");
+
+        database.get(5).put(new LatLng(-53.966788866601990, -5.973858162760734), "1.503");
+        database.get(5).put(new LatLng(-53.964952440384600, -5.979642346501349), "1.504");
+        database.get(5).put(new LatLng(-53.963017113423650, -5.979929007589817), "1.505");
+        database.get(5).put(new LatLng(-53.967076028932210, -5.980156995356083), "1.506");
+        database.get(5).put(new LatLng(-53.971469799727190, -5.984051562845707), "1.507");
+        database.get(5).put(new LatLng(-53.971185428565390, -5.987831130623817), "1.508");
+        database.get(5).put(new LatLng(-53.970999856601380, -5.992242023348808), "1.509");
+        database.get(5).put(new LatLng(-53.970411976518000, -5.997339896857738), "1.510");
+        database.get(5).put(new LatLng(-53.967397309166714, -6.004960723221302), "1.511");
+        database.get(5).put(new LatLng(-53.964618123609156, -6.007078662514687), "1.512");
+        database.get(5).put(new LatLng(-53.961167896758750, -6.009943261742592), "1.513");
+        database.get(5).put(new LatLng(-53.959398292196790, -6.000551506876945), "1.514");
+        database.get(5).put(new LatLng(-53.960494662899436, -5.980275683104992), "1.515");
+        database.get(5).put(new LatLng(-53.960916594210750, -5.975579805672169), "1.516");
+        database.get(5).put(new LatLng(-53.958675516036394, -5.972200222313404), "1.517");
+        database.get(5).put(new LatLng(-53.956268604756040, -5.972486883401871), "1.518");
+        database.get(5).put(new LatLng(-53.956790991864750, -5.965786390006542), "1.519");
+        database.get(5).put(new LatLng(-53.945018136366330, -5.961021110415459), "2.502");
+        database.get(5).put(new LatLng(-53.943384009975370, -5.965947322547436), "2.503");
+        database.get(5).put(new LatLng(-53.943265212154150, -5.971331521868705), "2.504");
+        database.get(5).put(new LatLng(-53.945777062802804, -6.000310778617860), "2.506");
+        database.get(5).put(new LatLng(-53.944008580995200, -6.007297933101654), "2.507");
+        database.get(5).put(new LatLng(-53.941598849585404, -6.013082116842270), "2.508");
+        database.get(5).put(new LatLng(-53.938887019929870, -6.010790839791298), "2.509");
+        database.get(5).put(new LatLng(-53.935837505837770, -6.009817533195019), "2.510");
+        database.get(5).put(new LatLng(-53.931150202423220, -5.983178168535232), "2.513");
+        database.get(5).put(new LatLng(-53.934738512983390, -5.977565646171569), "2.514");
+        database.get(5).put(new LatLng(-53.930443123379455, -5.972181446850300), "2.515");
+        database.get(5).put(new LatLng(-53.935916060612250, -5.913484320044518), "3.507");
+        database.get(5).put(new LatLng(-53.932564127182104, -5.911077708005905), "3.508");
+
+        database.get(6).put(new LatLng(-53.971294089342436, -5.983441695570947), "1.603");
+        database.get(6).put(new LatLng(-53.970469561917730, -5.987622924149036), "1.604");
+        database.get(6).put(new LatLng(-53.969812452561420, -5.994208417832851), "1.605");
+        database.get(6).put(new LatLng(-53.966765199288716, -6.005090139806271), "1.606");
+        database.get(6).put(new LatLng(-53.964121870283186, -6.006521768867969), "1.607");
+        database.get(6).put(new LatLng(-53.960770427746250, -6.009901352226734), "1.608");
+        database.get(6).put(new LatLng(-53.959811555140370, -6.000222600996494), "1.609");
+        database.get(6).put(new LatLng(-53.960872606246330, -5.979203805327415), "1.610");
+        database.get(6).put(new LatLng(-53.965168216277770, -5.973647944629192), "1.611");
+        database.get(6).put(new LatLng(-53.968047553848900, -5.973819606006145), "1.612");
+        database.get(6).put(new LatLng(-53.958802555111990, -5.971814990043640), "1.613");
+        database.get(6).put(new LatLng(-53.956294842633234, -5.971643328666687), "1.614");
+        database.get(6).put(new LatLng(-53.956918036682715, -5.966432467103004), "1.615");
+        database.get(6).put(new LatLng(-53.941930390786816, -5.940915942192078), "2.601");
+        database.get(6).put(new LatLng(-53.944980840873484, -5.960674770176411), "2.602");
+        database.get(6).put(new LatLng(-53.943986084760640, -5.965600647032260), "2.603");
+        database.get(6).put(new LatLng(-53.943735270657015, -5.970984846353531), "2.604");
+        database.get(6).put(new LatLng(-53.940786562506176, -5.977055691182612), "2.605");
+        database.get(6).put(new LatLng(-53.946794862903470, -5.999708622694015), "2.606");
+        database.get(6).put(new LatLng(-53.944789824281490, -6.006696112453937), "2.607");
+        database.get(6).put(new LatLng(-53.942379940659590, -6.012366972863674), "2.608");
+        database.get(6).put(new LatLng(-53.940240489877450, -6.006296128034592), "2.609");
+        database.get(6).put(new LatLng(-53.937023114557235, -6.005779467523098), "2.610");
+        database.get(6).put(new LatLng(-53.936669626286380, -6.009674035012722), "2.611");
+        database.get(6).put(new LatLng(-53.939787759264590, -6.010992005467415), "2.612");
+        database.get(6).put(new LatLng(-53.931951228362834, -5.989983603358269), "2.614");
+        database.get(6).put(new LatLng(-53.931193037368490, -5.983969420194626), "2.615");
+        database.get(6).put(new LatLng(-53.935254853748380, -5.975092314183712), "2.616");
+        database.get(6).put(new LatLng(-53.930485761651170, -5.971369743347168), "2.617");
+        database.get(6).put(new LatLng(-53.926896493150710, -5.947601348161696), "2.619");
+        database.get(6).put(new LatLng(-53.932440363798030, -5.939414240419865), "2.620");
+
+        database.get(7).put(new LatLng(-53.970702466438400, -5.987398289144039), "1.703");
+        database.get(7).put(new LatLng(-53.970047530088100, -5.996275395154954), "1.704");
+        database.get(7).put(new LatLng(-53.967268324029430, -6.006069146096706), "1.705");
+        database.get(7).put(new LatLng(-53.964457571709060, -6.007960774004459), "1.706");
+        database.get(7).put(new LatLng(-53.959691620540950, -6.003779545426368), "1.707");
+        database.get(7).put(new LatLng(-53.962099912211310, -5.977089889347553), "1.708");
+        database.get(7).put(new LatLng(-53.966259504483730, -5.979609489440918), "1.709");
+        database.get(7).put(new LatLng(-53.969140738830830, -5.974913612008095), "1.710");
+        database.get(7).put(new LatLng(-53.945673663341594, -5.998277328908443), "2.707");
+        database.get(7).put(new LatLng(-53.945186064336400, -6.004004850983620), "2.708");
+        database.get(7).put(new LatLng(-53.945607953245440, -6.011965312063694), "2.709");
     }
 }
