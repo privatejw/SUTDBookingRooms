@@ -26,6 +26,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.view.Display;
 
+import com.google.firebase.FirebaseApp;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -86,6 +87,9 @@ public class AuthenticationFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (!FirebaseApp.getApps(getContext()).isEmpty()){
+            FirebaseDatabase.getInstance().setPersistenceEnabled(true);
+        }
     }
 
     @Override
