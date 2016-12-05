@@ -96,5 +96,12 @@
         android:layout_toEndOf="@+id/button"
         android:id="@+id/button3" />
 
+    <CalendarView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/button"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/calendarView" />
+
 </RelativeLayout>
 

@@ -81,6 +81,12 @@ public class SearchByRoom extends AppCompatActivity {
         roomSpinner.setAdapter(adapter4);
     }
 
+    public void searchByRoom(View view){
+        Toast.makeText(this, "test", Toast.LENGTH_SHORT).show();
+        Fragment fragment = new SearchByRoomResult();
+        fm.beginTransaction().replace(R.id.main_container, fragment).commit();
+    }
+
 //    @Override
 //    public void onBackPressed() {
 //        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
