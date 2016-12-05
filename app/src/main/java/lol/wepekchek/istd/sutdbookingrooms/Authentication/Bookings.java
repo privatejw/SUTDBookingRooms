@@ -10,11 +10,9 @@ public class Bookings {
     private String bookTime;
     private String authorKey;
 
-    Bookings() {
+    public Bookings() {}
 
-    }
-
-    Bookings(String room, String date, String time, String key){
+    public Bookings(String room, String date, String time, String key){
         this.roomID = room;
         this.bookDate = date;
         this.bookTime = time;
