@@ -81,9 +81,11 @@ public class UpcomingBookings extends Fragment {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 bookings.clear();
                 for (DataSnapshot data: dataSnapshot.getChildren()){
-                    String[] bookingInfo = data.getKey().split(" ");
+                    String roomID = data.getKey().substring(0,4);
+                    String bookDate = data.getKey().substring(4,13);
+                    String bookTime = data.getKey().substring(13,17);
 
-                    Bookings roomBooking = new Bookings(bookingInfo[0],bookingInfo[1],bookingInfo[2],data.getValue().toString());
+                    Bookings roomBooking = new Bookings(roomID,bookDate,bookTime,data.getValue().toString());
                     bookings.add(roomBooking);
                 }
                 ArrayAdapter arrayAdapter = new ArrayAdapter(getContext(), android.R.layout.simple_list_item_2,android.R.id.text1,bookings){
