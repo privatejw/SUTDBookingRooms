@@ -76,14 +76,14 @@
         <item>2018</item>
     </string-array>
     <string-array name="hours_array">
-        <item>0000</item>
-        <item>0100</item>
-        <item>0200</item>
-        <item>0300</item>
-        <item>0400</item>
-        <item>0500</item>
-        <item>0600</item>
-        <item>0700</item>
+        <!--<item>0000</item>-->
+        <!--<item>0100</item>-->
+        <!--<item>0200</item>-->
+        <!--<item>0300</item>-->
+        <!--<item>0400</item>-->
+        <!--<item>0500</item>-->
+        <!--<item>0600</item>-->
+        <!--<item>0700</item>-->
         <item>0800</item>
         <item>0900</item>
         <item>1000</item>
@@ -98,8 +98,8 @@
         <item>1900</item>
         <item>2000</item>
         <item>2100</item>
-        <item>2200</item>
-        <item>2300</item>
+        <!--<item>2200</item>-->
+        <!--<item>2300</item>-->
     </string-array>
     <string-array name="duration_array">
         <item>1</item>
