@@ -107,4 +107,9 @@
         <item>3</item>
         <item>4</item>
     </string-array>
+    <string-array name="rooms_array">
+        <item>55L2</item>
+        <item>55L9</item>
+    </string-array>
+    <string name="title_activity_search_by_room">SearchByRoom</string>
 </resources>

@@ -1,6 +1,7 @@
 package lol.wepekchek.istd.sutdbookingrooms.RoomSearch;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -40,6 +41,7 @@ public class RoomSearchFragment extends Fragment {
     private Button button;
     private String[] times;
     FragmentManager fragmentManager;
+    private Button button2;
 
     private OnFragmentInteractionListener mListener;
 
@@ -105,6 +107,19 @@ public class RoomSearchFragment extends Fragment {
             public void onClick(View v)
             {
                 if (v==v.findViewById(R.id.button))viewData(v);
+            }
+        });
+
+        button2=(Button) view.findViewById(R.id.button3);
+        button2.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                if (v==v.findViewById(R.id.button3)){
+                    Intent intent = new Intent(getContext(),SearchByRoom.class);
+                    startActivity(intent);
+                }
             }
         });
         return view;
