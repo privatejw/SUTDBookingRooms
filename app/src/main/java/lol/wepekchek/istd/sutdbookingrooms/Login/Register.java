@@ -49,7 +49,7 @@ public class Register extends AppCompatActivity {
                     String password = mngr.getDeviceId();
                     //String password="password"; //getDeviceId() crashes app
 
-                    (mAuth.createUserWithEmailAndPassword(email, "123f0v92mcas"))
+                    (mAuth.createUserWithEmailAndPassword(email, password))
                             .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                                 @Override
                                 public void onComplete(@NonNull Task<AuthResult> task) {
