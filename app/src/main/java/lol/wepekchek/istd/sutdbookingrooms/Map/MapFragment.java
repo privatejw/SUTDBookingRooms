@@ -4,7 +4,6 @@ import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
@@ -12,14 +11,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import lol.wepekchek.istd.sutdbookingrooms.Booking.BookingFragment;
+import lol.wepekchek.istd.sutdbookingrooms.MapDatabase;
 import lol.wepekchek.istd.sutdbookingrooms.R;
-import lol.wepekchek.istd.sutdbookingrooms.RoomDatabase;
 
-import com.google.android.gms.games.multiplayer.realtime.Room;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMap.OnCameraIdleListener;
@@ -28,7 +25,6 @@ import com.google.android.gms.maps.GoogleMap.OnInfoWindowClickListener;
 import com.google.android.gms.maps.GoogleMap.OnCircleClickListener;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.UiSettings;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.Circle;
@@ -155,8 +151,8 @@ public class MapFragment extends Fragment implements
         } else {
             mMap.animateCamera(CameraUpdateFactory.newCameraPosition(new CameraPosition.Builder()
                     .target(newLoc).zoom(14).bearing(0).tilt(0).build()));
-            String id = RoomDatabase.database.get(currentLevel).get(newLoc);
-            String name = RoomDatabase.roomIdToName.get(id);
+            String id = MapDatabase.database.get(currentLevel).get(newLoc);
+            String name = MapDatabase.roomIdToName.get(id);
             circles.add(mMap.addCircle(new CircleOptions()
                     .center(newLoc)
                     .radius(50)
@@ -194,12 +190,12 @@ public class MapFragment extends Fragment implements
     @Override
     public boolean onMarkerClick(Marker marker) {
         Log.i("Marker Clicked at: ", marker.getTitle());
-//        if (RoomDatabase.database.isEmpty())
+//        if (MapDatabase.database.isEmpty())
 //            Log.i("Hashmap empty: ", "Yep");
 //        else {
-//            for (int l: RoomDatabase.database.keySet()) {
-//                for (LatLng k: RoomDatabase.database.get(l).keySet())
-//                    Log.i("Hashmap empty: ", "Nope"+l+k+RoomDatabase.database.get(l).get(k));
+//            for (int l: MapDatabase.database.keySet()) {
+//                for (LatLng k: MapDatabase.database.get(l).keySet())
+//                    Log.i("Hashmap empty: ", "Nope"+l+k+MapDatabase.database.get(l).get(k));
 //            }
 //        }
         return false;
@@ -292,9 +288,9 @@ public class MapFragment extends Fragment implements
         String id;
         String name;
         int color;
-        for (LatLng loc: RoomDatabase.database.get(level).keySet()) {
-            id = RoomDatabase.database.get(level).get(loc);
-            name = RoomDatabase.roomIdToName.get(id);
+        for (LatLng loc: MapDatabase.database.get(level).keySet()) {
+            id = MapDatabase.database.get(level).get(loc);
+            name = MapDatabase.roomIdToName.get(id);
             color = Color.GREEN;
             if (name.equals("")) {
                 name = NOT_FOR_BOOKING;

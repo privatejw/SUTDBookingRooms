@@ -5,7 +5,7 @@ import com.google.android.gms.maps.model.LatLng;
 
 import java.util.HashMap;
 
-public class RoomDatabase {
+public class MapDatabase {
     public static HashMap<Integer, HashMap<LatLng, String>> database = null;
     public static HashMap<String, String> roomIdToName = null;
     public static HashMap<String, String> roomNameToId = null;
