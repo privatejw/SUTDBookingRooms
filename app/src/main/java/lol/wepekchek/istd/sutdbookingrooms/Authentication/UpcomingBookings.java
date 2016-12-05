@@ -79,13 +79,13 @@ public class UpcomingBookings extends Fragment {
         userDatabaseRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                bookings.clear();
                 for (DataSnapshot data: dataSnapshot.getChildren()){
                     String[] bookingInfo = data.getKey().split(" ");
 
-                    Bookings roomBooking = new Bookings(bookingInfo[0],bookingInfo[1]);
+                    Bookings roomBooking = new Bookings(bookingInfo[0],bookingInfo[1],bookingInfo[2],data.getValue().toString());
                     bookings.add(roomBooking);
                 }
-                //ArrayAdapter arrayAdapter = new ArrayAdapter<String>(getContext(),android.R.layout.simple_list_item_1,bookings);
                 ArrayAdapter arrayAdapter = new ArrayAdapter(getContext(), android.R.layout.simple_list_item_2,android.R.id.text1,bookings){
                     @Override
                     public View getView(int position, View convertView, ViewGroup parent){
@@ -94,7 +94,7 @@ public class UpcomingBookings extends Fragment {
                         TextView text2 = (TextView) view.findViewById(android.R.id.text2);
 
                         text1.setText(bookings.get(position).getRoomID());
-                        text2.setText(bookings.get(position).getBookTime());
+                        text2.setText(bookings.get(position).getBookDate()+" "+bookings.get(position).getBookTime());
                         return view;
                     }
                 };

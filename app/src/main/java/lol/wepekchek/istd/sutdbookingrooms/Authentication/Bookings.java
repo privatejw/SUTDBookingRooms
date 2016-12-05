@@ -6,15 +6,19 @@ package lol.wepekchek.istd.sutdbookingrooms.Authentication;
 
 public class Bookings {
     private String roomID;
+    private String bookDate;
     private String bookTime;
+    private String authorKey;
 
     Bookings() {
 
     }
 
-    Bookings(String room, String time){
+    Bookings(String room, String date, String time, String key){
         this.roomID = room;
+        this.bookDate = date;
         this.bookTime = time;
+        this.authorKey = key;
     }
 
     public String getRoomID() {
@@ -23,5 +27,13 @@ public class Bookings {
 
     public String getBookTime() {
         return bookTime;
+    }
+
+    public String getBookDate() {
+        return bookDate;
+    }
+
+    public String getAuthorKey() {
+        return authorKey;
     }
 }

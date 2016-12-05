@@ -87,9 +87,6 @@ public class AuthenticationFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (!FirebaseApp.getApps(getContext()).isEmpty()){
-            FirebaseDatabase.getInstance().setPersistenceEnabled(true);
-        }
     }
 
     @Override
