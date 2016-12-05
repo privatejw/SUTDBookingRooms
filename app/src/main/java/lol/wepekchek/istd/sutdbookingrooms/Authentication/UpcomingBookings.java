@@ -10,6 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseListAdapter;
 import com.google.firebase.database.DataSnapshot;
@@ -20,10 +21,8 @@ import com.google.firebase.database.ValueEventListener;
 
 import org.w3c.dom.Text;
 
-import java.sql.Array;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 import lol.wepekchek.istd.sutdbookingrooms.R;
 
@@ -34,10 +33,10 @@ import lol.wepekchek.istd.sutdbookingrooms.R;
 public class UpcomingBookings extends Fragment {
     private String title;
     private RecyclerView recyclerView;
-//    private RecyclerViewAdapter recyclerViewAdapter;
     private ArrayList<Bookings> bookings;
     private String userID;
     private ListView bookingsList;
+    private Calendar cal;
 
     private DatabaseReference mDatabase;
     private DatabaseReference userDatabaseRef;
@@ -64,6 +63,7 @@ public class UpcomingBookings extends Fragment {
         View view = inflater.inflate(R.layout.fragment_upcoming_bookings,container,false);
         bookingsList = (ListView) view.findViewById(R.id.bookingsList);
         bookings = new ArrayList<Bookings>();
+        cal = Calendar.getInstance();
         userID  = "1001234";  // TODO: Change this to get from database later
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
@@ -79,14 +79,18 @@ public class UpcomingBookings extends Fragment {
         userDatabaseRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                SimpleDateFormat sdf = new SimpleDateFormat("ddMMyyyyHH");
+                String currentTime = sdf.format(new Date());
                 bookings.clear();
                 for (DataSnapshot data: dataSnapshot.getChildren()){
-                    String roomID = data.getKey().substring(0,4);
-                    String bookDate = data.getKey().substring(4,13);
-                    String bookTime = data.getKey().substring(13,17);
+                    if (!data.getKey().contains(currentTime)){
+                        String roomID = data.getKey().substring(0,4);
+                        String bookDate = data.getKey().substring(4,12);
+                        String bookTime = data.getKey().substring(12,16);
 
-                    Bookings roomBooking = new Bookings(roomID,bookDate,bookTime,data.getValue().toString());
-                    bookings.add(roomBooking);
+                        Bookings roomBooking = new Bookings(roomID,bookDate,bookTime,data.getValue().toString());
+                        bookings.add(roomBooking);
+                    }
                 }
                 ArrayAdapter arrayAdapter = new ArrayAdapter(getContext(), android.R.layout.simple_list_item_2,android.R.id.text1,bookings){
                     @Override
