@@ -26,6 +26,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.view.Display;
 
+import com.google.firebase.FirebaseApp;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;

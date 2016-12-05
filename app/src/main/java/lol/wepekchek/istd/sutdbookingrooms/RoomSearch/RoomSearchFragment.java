@@ -154,7 +154,7 @@ public class RoomSearchFragment extends Fragment {
                     monthSpinner.getSelectedItem().toString()+
                     yearSpinner.getSelectedItem().toString()+ hours[i];
         }
-        ((BaseActivity)getActivity()).setTiming("\n"+daySpinner.getSelectedItem().toString()+" "
+        ((BaseActivity)getActivity()).setTiming(daySpinner.getSelectedItem().toString()+" "
                 +monthSpinner.getSelectedItem().toString()+" "
                 +yearSpinner.getSelectedItem().toString()+" "+hourSpinner.getSelectedItem().toString()+" HRS");
         Toast.makeText(getActivity(), Arrays.toString(times), Toast.LENGTH_SHORT).show();
@@ -215,4 +215,6 @@ public class RoomSearchFragment extends Fragment {
         }
 
     }
+
+
 }

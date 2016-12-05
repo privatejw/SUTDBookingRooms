@@ -8,15 +8,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import lol.wepekchek.istd.sutdbookingrooms.BaseActivity;
 import lol.wepekchek.istd.sutdbookingrooms.R;
 
 import com.google.android.gms.plus.PlusOneButton;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
+import java.util.UUID;
 
 /**
  * A fragment with a Google +1 button.
@@ -27,6 +32,9 @@ import java.util.ArrayList;
  * create an instance of this fragment.
  */
 public class BookingFragment extends Fragment {
+    private DatabaseReference mDatabase;
+    private Spinner spinner;
+    private String timing;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 //    private static final String ARG_PARAM1 = "param1";
@@ -66,6 +74,7 @@ public class BookingFragment extends Fragment {
 //            mParam1 = getArguments().getString(ARG_PARAM1);
 //            mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        mDatabase = FirebaseDatabase.getInstance().getReference();
     }
 
     @Override
@@ -77,12 +86,12 @@ public class BookingFragment extends Fragment {
         // Array of choices
         String colors[] = {"Red","Blue","White","Yellow","Black", "Green","Purple","Orange","Grey"};
         ArrayList<String> listOfAvailableRooms=((BaseActivity)getActivity()).getListOfAvailableRooms();
-        String timing=((BaseActivity)getActivity()).getTiming();
+        timing=((BaseActivity)getActivity()).getTiming();
         TextView t=(TextView)view.findViewById(R.id.textView4);
-        t.setText("Available rooms for timeslot "+timing);
+        t.setText("Available rooms for timeslot\n"+timing);
 
         // Selection of the spinner
-        Spinner spinner = (Spinner) view.findViewById(R.id.spinner6);
+        spinner = (Spinner) view.findViewById(R.id.spinner6);
 
         // Application of the Array to the Spinner
         ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<>(this.getActivity(),android.R.layout.simple_spinner_item, listOfAvailableRooms);
@@ -90,6 +99,16 @@ public class BookingFragment extends Fragment {
         spinner.setAdapter(spinnerArrayAdapter);
 
         //Find the +1 button
+
+        Button button=(Button) view.findViewById(R.id.button2);
+        button.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                if (v==v.findViewById(R.id.button2))book(v);
+            }
+        });
 
 
         return view;
@@ -140,6 +159,15 @@ public class BookingFragment extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+
+    public void book (View view){
+        int userID=8881234;
+        String timing=this.timing.replace(" ","").replace("HRS","");
+        Toast.makeText(getActivity(), timing, Toast.LENGTH_SHORT).show();
+        mDatabase.child("Rooms").child(spinner.getSelectedItem().toString()).child(timing).child("BookerID").setValue(userID);
+        mDatabase.child("Users").child(String.valueOf(userID)).child("Bookings").child(spinner.getSelectedItem().toString()+timing)
+                .setValue(UUID.randomUUID().toString().replace("-","").substring(0,20));
     }
 
 }
