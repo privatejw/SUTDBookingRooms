@@ -3,6 +3,7 @@ package lol.wepekchek.istd.sutdbookingrooms.Booking;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -162,12 +163,17 @@ public class BookingFragment extends Fragment {
     }
 
     public void book (View view){
+        if (spinner.getSelectedItem()==null){
+            Toast.makeText(getActivity(), "No room selected", Toast.LENGTH_SHORT).show();
+            return;
+        }
         int userID=8881234;
         String timing=this.timing.replace(" ","").replace("HRS","");
         Toast.makeText(getActivity(), timing, Toast.LENGTH_SHORT).show();
         mDatabase.child("Rooms").child(spinner.getSelectedItem().toString()).child(timing).child("BookerID").setValue(userID);
         mDatabase.child("Users").child(String.valueOf(userID)).child("Bookings").child(spinner.getSelectedItem().toString()+timing)
                 .setValue(UUID.randomUUID().toString().replace("-","").substring(0,20));
+        Toast.makeText(getActivity(), "Booking Successful", Toast.LENGTH_SHORT).show();
     }
 
 }

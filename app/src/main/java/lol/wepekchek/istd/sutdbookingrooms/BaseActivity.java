@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import lol.wepekchek.istd.sutdbookingrooms.Authentication.AuthenticationFragment;
 import lol.wepekchek.istd.sutdbookingrooms.Booking.BookingFragment;
 import lol.wepekchek.istd.sutdbookingrooms.Map.MapFragment;
+import lol.wepekchek.istd.sutdbookingrooms.RoomSearch.CalendarFragment;
 import lol.wepekchek.istd.sutdbookingrooms.RoomSearch.RoomSearchFragment;
 
 public class BaseActivity extends AppCompatActivity
@@ -105,7 +106,7 @@ public class BaseActivity extends AppCompatActivity
         if (id == R.id.f_map) {
             fragment = new MapFragment();
         } else if (id == R.id.f_booking) {
-            fragment = new BookingFragment();
+            fragment = new CalendarFragment();
         } else if (id == R.id.f_roomSearch) {
             fragment = new RoomSearchFragment();
         } else if (id == R.id.f_authentication) {

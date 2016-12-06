@@ -16,6 +16,7 @@ import android.widget.Toast;
 import lol.wepekchek.istd.sutdbookingrooms.Booking.BookingFragment;
 import lol.wepekchek.istd.sutdbookingrooms.MapDatabase;
 import lol.wepekchek.istd.sutdbookingrooms.R;
+import lol.wepekchek.istd.sutdbookingrooms.RoomSearch.CalendarFragment;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -212,7 +213,7 @@ public class MapFragment extends Fragment implements
                     public void onClick(DialogInterface dialog, int id) {
                         Toast.makeText(getContext(), loc, Toast.LENGTH_SHORT).show();
                         FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
-                        ft.replace(R.id.main_container, new BookingFragment());
+                        ft.replace(R.id.main_container, new CalendarFragment());
                         ft.commit();
                     }
                 })
