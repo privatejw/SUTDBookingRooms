@@ -3,6 +3,7 @@ package lol.wepekchek.istd.sutdbookingrooms;
 
 import android.os.Message;
 
+import com.google.android.gms.maps.MapFragment;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -19,11 +20,13 @@ public class MyFirebase {
     DatabaseReference mDatabase;
     private DatabaseReference userDatabaseRef;
     private DatabaseReference boookingDatabaseRef;
+    private DatabaseReference realtimeDatabaseRef;
     private ArrayList<Bookings> bookings = new ArrayList<Bookings>();
     private MyFirebase() {
         mDatabase = FirebaseDatabase.getInstance().getReference();
         userDatabaseRef = mDatabase.child("Users");
         boookingDatabaseRef = mDatabase.child("Rooms");
+        realtimeDatabaseRef = mDatabase.child("RealTime");
     }
     public static MyFirebase getInstance() {
         if (instance == null)
@@ -54,4 +57,7 @@ public class MyFirebase {
         return boookingDatabaseRef;
     }
 
+    public DatabaseReference getRealtimeDatabaseRef() {
+        return realtimeDatabaseRef;
+    }
 }

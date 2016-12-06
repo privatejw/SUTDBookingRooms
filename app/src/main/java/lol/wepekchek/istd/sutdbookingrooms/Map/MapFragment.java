@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import lol.wepekchek.istd.sutdbookingrooms.Booking.BookingFragment;
 import lol.wepekchek.istd.sutdbookingrooms.MapDatabase;
+import lol.wepekchek.istd.sutdbookingrooms.MyFirebase;
 import lol.wepekchek.istd.sutdbookingrooms.R;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -35,10 +36,16 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 public class MapFragment extends Fragment implements
+        ValueEventListener,
         OnCameraIdleListener,
         OnInfoWindowClickListener,
         GoogleMap.OnMarkerClickListener,
@@ -50,8 +57,9 @@ public class MapFragment extends Fragment implements
     int currentLevel;
     LatLng newLoc;
     Button[] rbtns;
-    ArrayList<Circle> circles;
-    ArrayList<Marker> markers;
+    ArrayList<Circle> circles = new ArrayList<Circle>();
+    ArrayList<Marker> markers = new ArrayList<Marker>();
+    HashMap<String, HashMap<String, Long>> realtimeDatabase;
     static final String NOT_FOR_BOOKING = "Not for booking";
 
     public MapFragment() {
@@ -72,8 +80,14 @@ public class MapFragment extends Fragment implements
         View view = inflater.inflate(R.layout.fragment_map, container, false);
 
         groundOverlays = new GroundOverlay[8];
-        circles = new ArrayList<Circle>();
-        markers = new ArrayList<Marker>();
+        realtimeDatabase = new HashMap<String, HashMap<String, Long>>();
+        realtimeDatabase.put("1", new HashMap<String, Long>());
+        realtimeDatabase.put("2", new HashMap<String, Long>());
+        realtimeDatabase.put("3", new HashMap<String, Long>());
+        realtimeDatabase.put("4", new HashMap<String, Long>());
+        realtimeDatabase.put("5", new HashMap<String, Long>());
+        realtimeDatabase.put("6", new HashMap<String, Long>());
+        realtimeDatabase.put("7", new HashMap<String, Long>());
 
         // Need to use getChildFragmentManager() if it is a nested fragment
         SupportMapFragment mapFragment =
@@ -132,6 +146,8 @@ public class MapFragment extends Fragment implements
             }
         });
 
+        getRealTimeData();
+
         return view;
     }
 
@@ -172,7 +188,7 @@ public class MapFragment extends Fragment implements
         mMap.setOnInfoWindowClickListener(this);
 //        mMap.setOnMarkerClickListener(this);
 //        mMap.setOnCircleClickListener(this);
-//        mMap.setOnCameraIdleListener(this);
+        mMap.setOnCameraIdleListener(this);
 //        mMap.setOnMapClickListener(this);
 
         addOverlays();
@@ -288,8 +304,12 @@ public class MapFragment extends Fragment implements
         String id;
         String name;
         int color;
-        for (LatLng loc: MapDatabase.database.get(level).keySet()) {
-            id = MapDatabase.database.get(level).get(loc);
+        LatLng latlng;
+        String[] loc;
+        for (String coords: MapDatabase.database.get(level).keySet()) {
+            loc = coords.split(",");
+            latlng = new LatLng(Double.valueOf(loc[0]), Double.valueOf(loc[1]));
+            id = MapDatabase.database.get(level).get(coords);
             name = MapDatabase.roomIdToName.get(id);
             color = Color.GREEN;
             if (name.equals("")) {
@@ -297,7 +317,7 @@ public class MapFragment extends Fragment implements
                 color = Color.GRAY;
             }
             circles.add(mMap.addCircle(new CircleOptions()
-                    .center(loc)
+                    .center(latlng)
                     .radius(50)
                     .strokeWidth(0)
                     .fillColor(color)
@@ -305,11 +325,28 @@ public class MapFragment extends Fragment implements
                     .zIndex(0.9f)));
             markers.add(mMap.addMarker(new MarkerOptions()
                     .alpha(0)
-                    .position(loc)
+                    .position(latlng)
                     .infoWindowAnchor(0.5f, 1)
                     .title(id)
                     .snippet(name)
                     .zIndex(1)));
+        }
+        updateCircles(level);
+    }
+
+    private void updateCircles(int level) {
+        String roomID;
+        Long occupants;
+        LatLng loc;
+        for (Circle circle: circles) {
+            loc = circle.getCenter();
+            roomID = MapDatabase.database.get(level).get(""+loc.latitude+","+loc.longitude);
+
+            if (realtimeDatabase.get(""+level).containsKey(roomID.replace(".",""))) {
+                occupants = realtimeDatabase.get(""+level).get(roomID.replace(".", ""));
+                if (occupants != 0) circle.setFillColor(Color.RED);
+                else circle.setFillColor(Color.GREEN);
+            }
         }
     }
 
@@ -320,5 +357,22 @@ public class MapFragment extends Fragment implements
         }
         circles.clear();
         markers.clear();
+    }
+
+    @Override
+    public void onDataChange(DataSnapshot dataSnapshot) {
+        for (DataSnapshot lvl: dataSnapshot.getChildren()) {
+            for (DataSnapshot roomId: lvl.getChildren()) {
+                realtimeDatabase.get(lvl.getKey()).put(roomId.getKey(), (Long) roomId.getValue());
+            }
+        }
+        updateCircles(currentLevel);
+    }
+
+    @Override
+    public void onCancelled(DatabaseError databaseError) {}
+
+    private void getRealTimeData() {
+        MyFirebase.getInstance().getRealtimeDatabaseRef().addValueEventListener(this);
     }
 }

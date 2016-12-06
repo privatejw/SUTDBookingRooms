@@ -6,6 +6,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -18,6 +19,9 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.model.LatLng;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
@@ -27,7 +31,7 @@ import lol.wepekchek.istd.sutdbookingrooms.Map.MapFragment;
 import lol.wepekchek.istd.sutdbookingrooms.RoomSearch.RoomSearchFragment;
 
 public class BaseActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, ValueEventListener {
     FragmentManager fm;
     ArrayList<String> listOfAvailableRooms=new ArrayList<>();
     String timing="";
@@ -60,6 +64,7 @@ public class BaseActivity extends AppCompatActivity
         // start of own code
         fm = getSupportFragmentManager();
         if (MapDatabase.database == null) MapDatabase.initialize();
+//        getRealTimeData();
     }
 
     @Override
@@ -122,6 +127,22 @@ public class BaseActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+    private void getRealTimeData() {
+        Log.d("Reached function", "1");
+        MyFirebase.getInstance().getRealtimeDatabaseRef().addValueEventListener(this);
+    }
+    @Override
+    public void onDataChange(DataSnapshot dataSnapshot) {
+        Log.d("Reached function", "2");
+        for (DataSnapshot lvl: dataSnapshot.getChildren()) {
+            Log.d("Reached function", "3");
+            for (DataSnapshot roomId: lvl.getChildren()) {
+                Log.d("Reached function", "4"+roomId.getKey()+roomId.getValue().toString());
+            }
+        }
+    }
+    @Override
+    public void onCancelled(DatabaseError databaseError) {}
 
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
