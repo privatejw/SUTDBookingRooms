@@ -228,8 +228,12 @@ public class MapFragment extends Fragment implements
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         Toast.makeText(getContext(), loc, Toast.LENGTH_SHORT).show();
+                        CalendarFragment calendar=new CalendarFragment();
+                        Bundle args = new Bundle();
+                        args.putString("Room", loc);
+                        calendar.setArguments(args);
                         FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
-                        ft.replace(R.id.main_container, new CalendarFragment());
+                        ft.replace(R.id.main_container, calendar);
                         ft.commit();
                     }
                 })
