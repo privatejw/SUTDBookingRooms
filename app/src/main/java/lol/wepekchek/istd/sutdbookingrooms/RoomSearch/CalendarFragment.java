@@ -17,9 +17,16 @@ import android.widget.Toast;
 import lol.wepekchek.istd.sutdbookingrooms.R;
 
 import com.google.android.gms.plus.PlusOneButton;
+import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
 
 import static lol.wepekchek.istd.sutdbookingrooms.R.id.spinner;
 
@@ -32,11 +39,18 @@ import static lol.wepekchek.istd.sutdbookingrooms.R.id.spinner;
  * create an instance of this fragment.
  */
 public class CalendarFragment extends Fragment {
+    private boolean waitForFirebase=true;
+    private DatabaseReference mDatabase;
     DatePicker.OnDateChangedListener listener;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    private static String fromMap="";
+    private static final String[] monthNumberToWord={"Jan","Feb","Mar","Apr","May","Jun","Jul","Aug"
+            ,"Sep","Oct","Nov","Dec"};
+    private static final String[] officeHours={"0800","0900","1000","1100","1200","1300","1400",
+            "1500","1600","1700","1800","1900","2000","2100"};
     private static final String[] rooms = new String[] {
             "Think Tank 1", "Think Tank 2", "Think Tank 3"
     };
@@ -73,6 +87,7 @@ public class CalendarFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
+            fromMap=getArguments().getString("Room");
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
@@ -83,25 +98,57 @@ public class CalendarFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         final View view = inflater.inflate(R.layout.fragment_calendar, container, false);
-        DatePicker dp =  (DatePicker)view.findViewById(R.id.datePicker2);
+
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),
+                android.R.layout.simple_dropdown_item_1line, rooms);
+        final AutoCompleteTextView textView = (AutoCompleteTextView)
+                view.findViewById(R.id.autoCompleteTextView);
+        textView.setAdapter(adapter);
+        textView.setText(fromMap);
+
         listener=new DatePicker.OnDateChangedListener() {
             @Override
             public void onDateChanged(DatePicker dp, int i, int i1, int i2) {
                 //Toast.makeText(getContext(), "triggered", Toast.LENGTH_SHORT).show();
                 System.out.println(i+" "+i1+" "+i2);
+                String toSearch="";
+                if (i2<10)toSearch+="0";
+                toSearch+=i2+monthNumberToWord[i1]+i;
+                final String toSearchFinal=toSearch;
+                final ArrayList<String> availableTimings= new ArrayList<>();
+                mDatabase.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        waitForFirebase=true;
+                        for(String hour:officeHours){
+                            if( !dataSnapshot.child("Rooms").child(textView.getText().toString().replace(".","")).hasChild(toSearchFinal+hour) ){
+                                availableTimings.add(hour);
+                                System.out.println("add");
+                            }
+                        }
+                        waitForFirebase=false;
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        System.out.println("The read failed: " + databaseError.getCode());
+                    }
+                });
+                //while(waitForFirebase){}
+                System.out.println(availableTimings.toString());
                 spinner = (Spinner) view.findViewById(R.id.spinner8);
-                ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<>(getActivity(),android.R.layout.simple_spinner_item, rooms);
+                ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<>(getActivity(),android.R.layout.simple_spinner_item, availableTimings);
                 spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); // The drop down view
                 spinner.setAdapter(spinnerArrayAdapter);
             }
         };
+        DatePicker dp =  (DatePicker)view.findViewById(R.id.datePicker2);
         dp.init(dp.getYear(),dp.getMonth(),dp.getDayOfMonth(), listener);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),
-                android.R.layout.simple_dropdown_item_1line, rooms);
-        AutoCompleteTextView textView = (AutoCompleteTextView)
-                view.findViewById(R.id.autoCompleteTextView);
-        textView.setAdapter(adapter);
-//        textView.setText("a");
+        dp.updateDate(dp.getYear(),dp.getMonth(),dp.getDayOfMonth());
+
+
         return view;
     }
 
