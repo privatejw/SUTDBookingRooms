@@ -41,4 +41,25 @@
         android:layout_gravity="center_horizontal"
         android:id="@+id/qrCode"
         android:layout_marginTop="20sp"/>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:text="Student ID"
+            android:ems="10"
+            android:id="@+id/shareID" />
+
+        <Button
+            android:text="Share My Booking"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/shareBooking" />
+    </LinearLayout>
 </LinearLayout>

@@ -10,8 +10,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -44,10 +46,15 @@ public class CurrentBookings extends Fragment {
     private TextView messageHead;
     private TextView messageRoomID;
     private TextView messageRoomTime;
+    private TextView shareID;
+    private Button shareBooking;
 
     private String userID;
     private DatabaseReference mDatabase;
     private DatabaseReference userDatabaseRef;
+    static Bookings currentBooking;
+
+
 
     // newInstance constructer for creating fragment with arguments
     public static CurrentBookings newInstance(String title){
@@ -69,21 +76,13 @@ public class CurrentBookings extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         View view = inflater.inflate(R.layout.fragment_current_bookings,container,false);
 
-
-
         userID  = "1001234";  // TODO: Change this to get from database later
-
         cal = Calendar.getInstance();
-
         mDatabase = FirebaseDatabase.getInstance().getReference();
-        userDatabaseRef = mDatabase.child("Users").child("1001234").child("Bookings");
 
-        return view;
-    }
-
-    @Override
-    public void onStart(){
-        super.onStart();
+        userDatabaseRef = mDatabase.child("Users").child(userID).child("Bookings");
+        shareID = (TextView) view.findViewById(R.id.shareID);
+        shareBooking = (Button) view.findViewById(R.id.shareBooking);
 
         userDatabaseRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -98,18 +97,8 @@ public class CurrentBookings extends Fragment {
                         String bookTime = data.getKey().substring(12,16);
                         String authorKey = data.getValue().toString();
 
-                        Bookings currentBooking = new Bookings(roomID,bookDate,bookTime,authorKey);
-
-                        messageHead = (TextView) getView().findViewById(R.id.messageHead);
-                        messageRoomID = (TextView) getView().findViewById(R.id.messageRoomID);
-                        messageRoomTime = (TextView) getView().findViewById(R.id.messageRoomTime);
-
-                        qrCode = (ImageView) getView().findViewById(R.id.qrCode);
-
-                        messageHead.setText("This is your access code for");
-                        messageRoomID.setText("Room "+roomID);
-                        messageRoomTime.setText("at "+bookDate+" "+bookTime);
-                        createQR(authorKey);
+                        currentBooking = new Bookings(roomID,bookDate,bookTime,authorKey);
+                        loadCreateQR(currentBooking);
                     }
                 }
             }
@@ -119,6 +108,33 @@ public class CurrentBookings extends Fragment {
 
             }
         });
+
+        shareBooking.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                if (v==v.findViewById(R.id.shareBooking)){
+                    shareBooking(shareID.getText().toString(),currentBooking);
+                }
+            }
+        });
+
+        return view;
+    }
+
+    private void loadCreateQR(Bookings booking){
+        if (booking!=null){
+            messageHead = (TextView) getView().findViewById(R.id.messageHead);
+            messageRoomID = (TextView) getView().findViewById(R.id.messageRoomID);
+            messageRoomTime = (TextView) getView().findViewById(R.id.messageRoomTime);
+            qrCode = (ImageView) getView().findViewById(R.id.qrCode);
+
+            messageHead.setText("This is your access code for");
+            messageRoomID.setText("Room "+booking.getRoomID());
+            messageRoomTime.setText("at "+booking.getBookDate()+" "+booking.getBookTime());
+            createQR(booking.getAuthorKey());
+        }
     }
 
     private void createQR(String authorKey){
@@ -162,5 +178,15 @@ public class CurrentBookings extends Fragment {
         Bitmap bitmap = Bitmap.createBitmap(w,h, Bitmap.Config.ARGB_8888);
         bitmap.setPixels(pixels,0,width,0,0,w,h);
         return bitmap;
+    }
+
+    private void shareBooking(String userID, Bookings booking){
+        if (userID==null){
+            Toast.makeText(getContext(),"No user entered",Toast.LENGTH_SHORT).show();
+        } else {
+            mDatabase.child("Rooms").child(booking.getRoomID()).child(booking.getBookDate()+booking.getBookTime()).child(userID).setValue("Access");
+            mDatabase.child("Users").child(userID).child("Bookings").child(booking.getBookDate()+booking.getBookTime())
+                    .setValue(booking.getAuthorKey());
+        }
     }
 }
