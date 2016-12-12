@@ -223,6 +223,7 @@ public class MapFragment extends Fragment implements
         if (marker.getSnippet().equals(NOT_FOR_BOOKING)) return;
 
         final String loc = marker.getTitle();
+        final String roomName=marker.getSnippet();
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setMessage("Do you wish to view information about this room?")
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
@@ -230,7 +231,7 @@ public class MapFragment extends Fragment implements
                         Toast.makeText(getContext(), loc, Toast.LENGTH_SHORT).show();
                         CalendarFragment calendar=new CalendarFragment();
                         Bundle args = new Bundle();
-                        args.putString("Room", loc);
+                        args.putString("Room", roomName+" ("+loc+")");
                         calendar.setArguments(args);
                         FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
                         ft.replace(R.id.main_container, calendar);

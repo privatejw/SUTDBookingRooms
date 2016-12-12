@@ -3,12 +3,14 @@ package lol.wepekchek.istd.sutdbookingrooms;
 
 import com.google.android.gms.maps.model.LatLng;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class MapDatabase {
     public static HashMap<Integer, HashMap<String, String>> database = null;
     public static HashMap<String, String> roomIdToName = null;
     public static HashMap<String, String> roomNameToId = null;
+    public static ArrayList<String> listOfRooms= new ArrayList<>();
 
     // following are hardcoded values
     static void initialize() {
@@ -339,6 +341,10 @@ public class MapDatabase {
         roomIdToName.put("2.707", "Furnace Lab");
         roomIdToName.put("2.708", "Composite Fabrication Lab");
         roomIdToName.put("2.709", "");
+
+        for (HashMap.Entry<String,String> a:roomIdToName.entrySet()) {
+            if(!a.getValue().equals(""))listOfRooms.add(a.getValue()+" ("+a.getKey()+")");
+        }
 
 //        roomNameToId = new HashMap<String, String>();
 //

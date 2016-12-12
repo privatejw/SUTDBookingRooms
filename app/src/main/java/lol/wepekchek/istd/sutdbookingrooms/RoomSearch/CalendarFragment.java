@@ -9,11 +9,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 import android.widget.CalendarView;
 import android.widget.DatePicker;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import lol.wepekchek.istd.sutdbookingrooms.MapDatabase;
 import lol.wepekchek.istd.sutdbookingrooms.R;
 
 import com.google.android.gms.plus.PlusOneButton;
@@ -27,7 +29,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.UUID;
 
+import static lol.wepekchek.istd.sutdbookingrooms.R.id.autoCompleteTextView;
 import static lol.wepekchek.istd.sutdbookingrooms.R.id.spinner;
 
 /**
@@ -51,13 +55,13 @@ public class CalendarFragment extends Fragment {
             ,"Sep","Oct","Nov","Dec"};
     private static final String[] officeHours={"0800","0900","1000","1100","1200","1300","1400",
             "1500","1600","1700","1800","1900","2000","2100"};
-    private static final String[] rooms = new String[] {
-            "Think Tank 1", "Think Tank 2", "Think Tank 3"
-    };
+    private static final ArrayList<String> rooms = MapDatabase.listOfRooms;
     private Spinner spinner;
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    private AutoCompleteTextView textView;
+    private DatePicker dp;
 
     private OnFragmentInteractionListener mListener;
 
@@ -103,7 +107,7 @@ public class CalendarFragment extends Fragment {
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),
                 android.R.layout.simple_dropdown_item_1line, rooms);
-        final AutoCompleteTextView textView = (AutoCompleteTextView)
+        textView = (AutoCompleteTextView)
                 view.findViewById(R.id.autoCompleteTextView);
         textView.setAdapter(adapter);
         textView.setText(fromMap);
@@ -148,10 +152,19 @@ public class CalendarFragment extends Fragment {
 //                spinner.setAdapter(spinnerArrayAdapter);
             }
         };
-        DatePicker dp =  (DatePicker)view.findViewById(R.id.datePicker2);
+        dp =  (DatePicker)view.findViewById(R.id.datePicker2);
         dp.init(dp.getYear(),dp.getMonth(),dp.getDayOfMonth(), listener);
         dp.updateDate(dp.getYear(),dp.getMonth(),dp.getDayOfMonth());
 
+        Button button=(Button) view.findViewById(R.id.button5);
+        button.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                if (v==v.findViewById(R.id.button5))book(v);
+            }
+        });
 
         return view;
     }
@@ -201,4 +214,36 @@ public class CalendarFragment extends Fragment {
         void onFragmentInteraction(Uri uri);
     }
 
+
+    public void book(View view){
+        if (!rooms.contains(textView.getText().toString())){
+            Toast.makeText(getActivity(), "Invalid room selected", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        final int userID=9871234;
+        String date="";
+        if (dp.getDayOfMonth()<10)date+="0";
+        date+=dp.getDayOfMonth()+monthNumberToWord[dp.getMonth()]+dp.getYear();
+        final String finalDate=date;
+
+        mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if(!dataSnapshot.child("Rooms").child(textView.getText().toString().replace(".","")).hasChild(finalDate+spinner.getSelectedItem().toString())){
+                    mDatabase.child("Rooms").child(textView.getText().toString().replace(".","")).child(finalDate+spinner.getSelectedItem().toString()).child("BookerID").setValue(userID);
+                    mDatabase.child("Users").child(String.valueOf(userID)).child("Bookings").child(textView.getText().toString().replace(".","")+finalDate+spinner.getSelectedItem().toString())
+                            .setValue(UUID.randomUUID().toString().replace("-","").substring(0,20));
+                    Toast.makeText(getActivity(), "Booking Successful", Toast.LENGTH_SHORT).show();
+                }else{
+                    Toast.makeText(getActivity(), "Sorry, this room has just been booked", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                System.out.println("The read failed: " + databaseError.getCode());
+            }
+        });
+
+    }
 }
