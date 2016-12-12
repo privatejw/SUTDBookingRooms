@@ -14,15 +14,6 @@
         android:layout_marginLeft="-30dp"
         android:layout_marginTop="-40dp" />
 
-    <Spinner
-        android:layout_height="wrap_content"
-        android:layout_marginTop="81dp"
-        android:id="@+id/spinner8"
-        android:layout_below="@+id/autoCompleteTextView"
-        android:spinnerMode="dialog"
-        android:layout_alignStart="@+id/autoCompleteTextView"
-        android:layout_width="150dp" />
-
     <fragment
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -41,15 +32,46 @@
         android:text="Choose"
         android:textSize="14sp"
         android:layout_below="@+id/textView5"
-        android:layout_alignStart="@+id/textView5" />
+        android:layout_alignStart="@+id/textView5"
+        android:inputType="textShortMessage"/>
 
     <TextView
         android:text="Select a room:"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/textView5"
-        android:textSize="23sp"
+        android:textSize="22sp"
+        android:layout_marginEnd="21dp"
+        android:textColor="?android:attr/textColorPrimary"
         android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="12dp" />
+        android:layout_alignParentEnd="true" />
+
+    <Button
+        android:text="Book Now"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:id="@+id/button5"
+        android:layout_below="@+id/spinner8"
+        android:layout_alignStart="@+id/spinner8" />
+
+    <Spinner
+        android:layout_height="wrap_content"
+        android:layout_marginTop="11dp"
+        android:id="@+id/spinner8"
+        android:spinnerMode="dialog"
+        android:layout_width="150dp"
+        android:layout_below="@+id/textView6"
+        android:layout_alignStart="@+id/textView6" />
+
+    <TextView
+        android:text="Select a timing:"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView6"
+        android:textSize="22sp"
+        android:textColor="?android:attr/textColorPrimary"
+        android:layout_marginTop="34dp"
+        android:layout_below="@+id/autoCompleteTextView"
+        android:layout_alignStart="@+id/autoCompleteTextView" />
 </RelativeLayout>

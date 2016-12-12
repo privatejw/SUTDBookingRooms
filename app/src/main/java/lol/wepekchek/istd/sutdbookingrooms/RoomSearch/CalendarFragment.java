@@ -129,6 +129,10 @@ public class CalendarFragment extends Fragment {
                             }
                         }
                         waitForFirebase=false;
+                        spinner = (Spinner) view.findViewById(R.id.spinner8);
+                        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<>(getActivity(),android.R.layout.simple_spinner_item, availableTimings);
+                        spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); // The drop down view
+                        spinner.setAdapter(spinnerArrayAdapter);
                     }
 
                     @Override
@@ -137,11 +141,11 @@ public class CalendarFragment extends Fragment {
                     }
                 });
                 //while(waitForFirebase){}
-                System.out.println(availableTimings.toString());
-                spinner = (Spinner) view.findViewById(R.id.spinner8);
-                ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<>(getActivity(),android.R.layout.simple_spinner_item, availableTimings);
-                spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); // The drop down view
-                spinner.setAdapter(spinnerArrayAdapter);
+//                System.out.println(availableTimings.toString());
+//                spinner = (Spinner) view.findViewById(R.id.spinner8);
+//                ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<>(getActivity(),android.R.layout.simple_spinner_item, availableTimings);
+//                spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); // The drop down view
+//                spinner.setAdapter(spinnerArrayAdapter);
             }
         };
         DatePicker dp =  (DatePicker)view.findViewById(R.id.datePicker2);
