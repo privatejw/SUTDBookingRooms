@@ -6,7 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.telephony.TelephonyManager;
+//import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -28,7 +28,7 @@ public class Register extends AppCompatActivity {
     private DatabaseOperations dbo;
     private Button register;
     private EditText studentID;
-    private TelephonyManager mngr;
+    //private TelephonyManager mngr;
     private FirebaseAuth mAuth;
 
     @Override
@@ -38,7 +38,7 @@ public class Register extends AppCompatActivity {
         dbo = new DatabaseOperations(this, "", null, 1);
         register = (Button) findViewById(R.id.register);
         studentID = (EditText) findViewById(R.id.studentID);
-        mngr = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+        //mngr = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
         mAuth = FirebaseAuth.getInstance();
 
         register.setOnClickListener(new View.OnClickListener() {
@@ -46,8 +46,8 @@ public class Register extends AppCompatActivity {
                 if (studentID.getText().toString().length() == 7 && studentID.getText().toString().matches("[0-9]*")) {
                     final ProgressDialog progressDialog = ProgressDialog.show(Register.this, "Please wait...", "Processing...", true);
                     String email = studentID.getText().toString() + "@mymail.sutd.edu.sg";
-                    String password = mngr.getDeviceId();
-                    //String password="password"; //getDeviceId() crashes app
+                    //String password = mngr.getDeviceId().toString();
+                    String password = Secure.getString(this.getContentResolver(),Secure.ANDROID_ID);
 
                     (mAuth.createUserWithEmailAndPassword(email, password))
                             .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
