@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -35,6 +36,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 import lol.wepekchek.istd.sutdbookingrooms.R;
 
@@ -61,6 +64,9 @@ public class AuthenticationFragment extends Fragment {
     private DatabaseReference bookingsDatabaseRef;
     static Bookings currentBooking;
     private ArrayList<String> sharedUsers;
+    private ArrayList<String> groupUsers;
+    private Map<String, ArrayList<String>> sharedUsersCollection;
+    private ExpandableListView expListView;
 
     public AuthenticationFragment() {
         // Required empty public constructor
@@ -92,7 +98,13 @@ public class AuthenticationFragment extends Fragment {
         userDatabaseRef = mDatabase.child("Users").child(userID).child("Bookings");
         shareID = (TextView) view.findViewById(R.id.shareID);
         shareBooking = (Button) view.findViewById(R.id.shareBooking);
-        sharedUsersListView = (ListView) view.findViewById(R.id.sharedUsers);
+
+        expListView = (ExpandableListView) view.findViewById(R.id.sharedUsers);
+
+
+
+        //TODO: Change this to expandable list view
+        //sharedUsersListView = (ListView) view.findViewById(R.id.sharedUsers);
 
         shareBooking.setVisibility(View.INVISIBLE);
         shareID.setVisibility(View.INVISIBLE);
@@ -132,6 +144,11 @@ public class AuthenticationFragment extends Fragment {
         shareBooking.setVisibility(view.VISIBLE);
         shareID.setVisibility(View.VISIBLE);
 
+        groupUsers = new ArrayList<String>();
+        groupUsers.add("Users with access");
+
+        sharedUsersCollection = new LinkedHashMap<String, ArrayList<String>>();
+
         bookingsDatabaseRef = mDatabase.child("Rooms").child(currentBooking.getRoomID()).child(currentBooking.getBookDate() + currentBooking.getBookTime());
         bookingsDatabaseRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -143,8 +160,15 @@ public class AuthenticationFragment extends Fragment {
                     }
                 }
 
-                ArrayAdapter arrayAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, sharedUsers);
-                sharedUsersListView.setAdapter(arrayAdapter);
+                if (sharedUsers!=null){
+                    sharedUsersCollection.
+                            put("Users with access",sharedUsers);
+                }
+
+                ExpandableListAdapter expListAdapter = new ExpandableListAdapter(getActivity(),groupUsers, sharedUsersCollection);
+                expListView.setAdapter(expListAdapter);
+                //ArrayAdapter arrayAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, sharedUsers);
+                //sharedUsersListView.setAdapter(arrayAdapter);
             }
 
             @Override
@@ -162,7 +186,7 @@ public class AuthenticationFragment extends Fragment {
             }
         });
     }
-    
+
     private void loadCreateQR(Bookings booking){
         if (booking!=null){
             messageHead = (TextView) getView().findViewById(R.id.messageHead);

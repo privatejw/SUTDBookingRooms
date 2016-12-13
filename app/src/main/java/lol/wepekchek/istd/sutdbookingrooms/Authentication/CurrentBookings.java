@@ -141,7 +141,7 @@ public class CurrentBookings extends Fragment {
         int width = display.getWidth();
         int height = display.getHeight();
         int smallerDimension = width<height ? width:height;
-        smallerDimension = smallerDimension * 4/5;
+        smallerDimension = smallerDimension * 3/5;
 
         //Encode with a QR Code image
         try {
