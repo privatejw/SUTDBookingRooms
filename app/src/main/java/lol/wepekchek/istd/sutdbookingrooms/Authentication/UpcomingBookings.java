@@ -55,7 +55,7 @@ public class UpcomingBookings extends Fragment {
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
 
-        title = getArguments().getString("title");
+//        title = getArguments().getString("title");
     }
 
     @Override

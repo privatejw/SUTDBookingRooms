@@ -40,7 +40,7 @@ import static android.graphics.Color.WHITE;
  */
 
 public class CurrentBookings extends Fragment {
-    private String title;
+
     private Calendar cal;
     private ImageView qrCode;
     private TextView messageHead;
@@ -55,8 +55,7 @@ public class CurrentBookings extends Fragment {
     static Bookings currentBooking;
 
 
-
-    // newInstance constructer for creating fragment with arguments
+    //newInstance constructer for creating fragment with arguments
     public static CurrentBookings newInstance(String title){
         CurrentBookings currentBookings = new CurrentBookings();
         Bundle args = new Bundle();
@@ -69,7 +68,6 @@ public class CurrentBookings extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-        title = getArguments().getString("title");
     }
 
     @Override
