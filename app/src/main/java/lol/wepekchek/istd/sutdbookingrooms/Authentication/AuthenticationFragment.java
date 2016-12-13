@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -45,7 +46,7 @@ import lol.wepekchek.istd.sutdbookingrooms.R;
 import static android.graphics.Color.BLACK;
 import static android.graphics.Color.WHITE;
 
-public class AuthenticationFragment extends Fragment {
+public class AuthenticationFragment extends Fragment implements  ValueEventListener{
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
@@ -155,31 +156,32 @@ public class AuthenticationFragment extends Fragment {
         sharedUsersCollection = new LinkedHashMap<String, ArrayList<String>>();
 
         bookingsDatabaseRef = mDatabase.child("Rooms").child(currentBooking.getRoomID()).child(currentBooking.getBookDate() + currentBooking.getBookTime());
-        bookingsDatabaseRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                sharedUsers.clear();
-                for (DataSnapshot data : dataSnapshot.getChildren()) {
-                    if (!data.getKey().contains(userID)&&!data.getKey().contains("AuthorKey")) {
-                        sharedUsers.add(data.getKey());
-                    }
-                }
-
-                if (sharedUsers!=null){
-                    sharedUsersCollection.
-                            put("Users with access",sharedUsers);
-                }
-
-                ExpandableListAdapter expListAdapter = new ExpandableListAdapter(getActivity(),groupUsers, sharedUsersCollection);
-                expListView.setAdapter(expListAdapter);
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
+        bookingsDatabaseRef.addValueEventListener(this);
+//        bookingsDatabaseRef.addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(DataSnapshot dataSnapshot) {
+//                sharedUsers.clear();
+//                for (DataSnapshot data : dataSnapshot.getChildren()) {
+//                    if (!data.getKey().contains(userID)&&!data.getKey().contains("AuthorKey")) {
+//                        sharedUsers.add(data.getKey());
+//                    }
+//                }
+//
+//                if (sharedUsers!=null){
+//                    sharedUsersCollection.
+//                            put("Users with access",sharedUsers);
+//                }
+//
+//                ExpandableListAdapter expListAdapter = new ExpandableListAdapter((AuthenticationFragment) getParentFragment(), currentBooking, getActivity(),groupUsers, sharedUsersCollection);
+//                expListView.setAdapter(expListAdapter);
+//
+//            }
+//
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {
+//
+//            }
+//        });
 
         shareBooking.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -256,6 +258,37 @@ public class AuthenticationFragment extends Fragment {
             mDatabase.child("Rooms").child(booking.getRoomID()).child(booking.getBookDate()+booking.getBookTime()).child(userID).setValue("Shared");
             mDatabase.child("Users").child(userID).child("Bookings").child(booking.getRoomID()+booking.getBookDate()+booking.getBookTime())
                     .setValue(booking.getAuthorKey());
+        }
+    }
+
+    @Override
+    public void onDataChange(DataSnapshot dataSnapshot) {
+        sharedUsers.clear();
+        for (DataSnapshot data : dataSnapshot.getChildren()) {
+            if (!data.getKey().contains(userID)&&!data.getKey().contains("AuthorKey")) {
+                sharedUsers.add(data.getKey());
+            }
+        }
+
+        if (sharedUsers!=null){
+            sharedUsersCollection.
+                    put("Users with access",sharedUsers);
+        }
+
+        ExpandableListAdapter expListAdapter = new ExpandableListAdapter(this, getActivity(),groupUsers, sharedUsersCollection);
+        expListView.setAdapter(expListAdapter);
+    }
+
+    @Override
+    public void onCancelled(DatabaseError databaseError) {}
+
+    public void removeBooking(String userID) {
+        if (currentBooking!=null){
+            // remove from Rooms
+            mDatabase.child("Rooms").child(currentBooking.getRoomID()).child(currentBooking.getBookDate()+currentBooking.getBookTime()).child(userID).setValue(null);
+            // remove from Users
+            mDatabase.child("Users").child(userID).child("Bookings").child(currentBooking.getRoomID()+currentBooking.getBookDate()+currentBooking.getBookTime())
+                    .setValue(null);
         }
     }
 }
