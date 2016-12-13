@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 //import android.telephony.TelephonyManager;
@@ -47,7 +48,7 @@ public class Register extends AppCompatActivity {
                     final ProgressDialog progressDialog = ProgressDialog.show(Register.this, "Please wait...", "Processing...", true);
                     String email = studentID.getText().toString() + "@mymail.sutd.edu.sg";
                     //String password = mngr.getDeviceId().toString();
-                    String password = Secure.getString(this.getContentResolver(),Secure.ANDROID_ID);
+                    String password = Settings.Secure.getString(getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID);
 
                     (mAuth.createUserWithEmailAndPassword(email, password))
                             .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
@@ -55,7 +56,7 @@ public class Register extends AppCompatActivity {
                                 public void onComplete(@NonNull Task<AuthResult> task) {
                                     if (task.isSuccessful()) {
                                         //mAuth.signInWithEmailAndPassword(studentID.getText().toString() + "@mymail.sutd.edu.sg", mngr.getDeviceId().toString());
-                                        mAuth.signInWithEmailAndPassword(studentID.getText().toString() + "@mymail.sutd.edu.sg", Secure.getString(this.getContentResolver(),Secure.ANDROID_ID));
+                                        mAuth.signInWithEmailAndPassword(studentID.getText().toString() + "@mymail.sutd.edu.sg", Settings.Secure.getString(getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID));
                                         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                                         user.sendEmailVerification();
                                         dbo.insertStudent(studentID.getText().toString());

@@ -15,6 +15,7 @@ import android.widget.DatePicker;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import lol.wepekchek.istd.sutdbookingrooms.Login.DatabaseOperations;
 import lol.wepekchek.istd.sutdbookingrooms.MapDatabase;
 import lol.wepekchek.istd.sutdbookingrooms.R;
 
@@ -45,6 +46,7 @@ import static lol.wepekchek.istd.sutdbookingrooms.R.id.spinner;
 public class CalendarFragment extends Fragment {
     private boolean waitForFirebase=true;
     private DatabaseReference mDatabase;
+    private DatabaseOperations dbo;
     DatePicker.OnDateChangedListener listener;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -104,6 +106,7 @@ public class CalendarFragment extends Fragment {
         final View view = inflater.inflate(R.layout.fragment_calendar, container, false);
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
+        dbo = new DatabaseOperations(getContext(), "", null, 1);
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),
                 android.R.layout.simple_dropdown_item_1line, rooms);
@@ -220,7 +223,7 @@ public class CalendarFragment extends Fragment {
             Toast.makeText(getActivity(), "Invalid room selected", Toast.LENGTH_SHORT).show();
             return;
         }
-        final int userID=9871234;
+        final int userID=Integer.valueOf(dbo.displayStudents());
         String date="";
         if (dp.getDayOfMonth()<10)date+="0";
         date+=dp.getDayOfMonth()+monthNumberToWord[dp.getMonth()]+dp.getYear();

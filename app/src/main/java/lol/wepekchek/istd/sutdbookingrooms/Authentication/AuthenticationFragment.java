@@ -39,6 +39,7 @@ import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import lol.wepekchek.istd.sutdbookingrooms.Login.DatabaseOperations;
 import lol.wepekchek.istd.sutdbookingrooms.R;
 
 import static android.graphics.Color.BLACK;
@@ -62,6 +63,7 @@ public class AuthenticationFragment extends Fragment {
     private DatabaseReference mDatabase;
     private DatabaseReference userDatabaseRef;
     private DatabaseReference bookingsDatabaseRef;
+    private DatabaseOperations dbo;
     static Bookings currentBooking;
     private ArrayList<String> sharedUsers;
     private ArrayList<String> groupUsers;
@@ -91,8 +93,9 @@ public class AuthenticationFragment extends Fragment {
                              Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_current_bookings,container,false);
 
-//        userID  = "12345678";  // TODO: Change this to get from database later
-        userID = "9871234";
+
+        dbo = new DatabaseOperations(getContext(), "", null, 1);
+        userID  = dbo.displayStudents();
         sharedUsers = new ArrayList<String>();
         cal = Calendar.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference();
@@ -204,9 +207,10 @@ public class AuthenticationFragment extends Fragment {
             qrCode = (ImageView) getView().findViewById(R.id.qrCode);
 
             messageHead.setText("This is your access code for");
-            messageRoomID.setText("Room "+booking.getRoomID());
+            messageRoomID.setText(booking.getRoomID());
             messageRoomTime.setText("at "+booking.getBookDate()+" "+booking.getBookTime());
             createQR(booking.getAuthorKey());
+            Toast.makeText(getContext(),"Access code generated",Toast.LENGTH_LONG).show();
         }
     }
 

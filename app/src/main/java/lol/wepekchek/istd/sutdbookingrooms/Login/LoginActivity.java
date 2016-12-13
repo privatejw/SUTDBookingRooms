@@ -4,6 +4,7 @@ package lol.wepekchek.istd.sutdbookingrooms.Login;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -40,7 +41,7 @@ public class LoginActivity extends AppCompatActivity {
         } else {
             String email = dbo.displayStudents() + "@mymail.sutd.edu.sg";
             //String password = mngr.getDeviceId().toString();
-            String password = Secure.getString(this.getContentResolver(),Secure.ANDROID_ID); 
+            String password = Settings.Secure.getString(getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID);
             (mAuth.signInWithEmailAndPassword(email, password))
                     .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                         @Override
