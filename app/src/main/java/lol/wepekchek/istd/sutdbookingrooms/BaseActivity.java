@@ -30,6 +30,7 @@ import lol.wepekchek.istd.sutdbookingrooms.Authentication.AuthenticationFragment
 import lol.wepekchek.istd.sutdbookingrooms.Booking.BookingFragment;
 import lol.wepekchek.istd.sutdbookingrooms.Login.DatabaseOperations;
 import lol.wepekchek.istd.sutdbookingrooms.Map.MapFragment;
+import lol.wepekchek.istd.sutdbookingrooms.MyBookings.MyBookingsFragment;
 import lol.wepekchek.istd.sutdbookingrooms.RoomSearch.CalendarFragment;
 import lol.wepekchek.istd.sutdbookingrooms.RoomSearch.RoomSearchFragment;
 
@@ -123,7 +124,7 @@ public class BaseActivity extends AppCompatActivity
         } else if (id == R.id.nav_send) {
             fragment = new MapFragment().newInstance(3, new LatLng(-53.965623629921105, -5.974991060793399));
         } else {
-            fragment = new MapFragment();
+            fragment = new MyBookingsFragment();
         }
 
         fm.beginTransaction().replace(R.id.main_container, fragment).commit();
