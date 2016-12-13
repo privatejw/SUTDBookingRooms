@@ -79,6 +79,7 @@ public class Register extends AppCompatActivity {
                                 }
                             });
                 } else {
+                    Toast.makeText(Register.this, Settings.Secure.getString(getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID),Toast.LENGTH_LONG).show();
                     Toast.makeText(Register.this, "Please enter a valid Student ID", Toast.LENGTH_LONG).show();
                 }
             }
