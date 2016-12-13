@@ -78,10 +78,10 @@
         </activity>
         <activity
             android:name=".Login.ManualLogIn"
-            android:label="Manual Log In" />
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name=".Login.Register"
-            android:label="Registration" />
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name=".RoomSearch.SearchByRoom"
             android:label="@string/title_activity_search_by_room"

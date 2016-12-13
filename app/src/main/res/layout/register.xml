@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/studentID"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="171dp"
+        android:layout_marginTop="250dp"
         android:hint="Student ID"
         android:textSize="30dp"
         android:layout_marginRight="20dp"
@@ -23,7 +23,7 @@
         android:id="@+id/register"
         android:layout_below="@+id/studentID"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="91dp"
+        android:layout_marginTop="50dp"
         android:textSize="30dp"
         android:clickable="true" />
 
@@ -32,8 +32,19 @@
         android:layout_height="wrap_content"
         app:srcCompat="@drawable/logo"
         android:id="@+id/imageView5"
-        android:layout_marginBottom="80dp"
+        android:layout_marginBottom="150dp"
         android:layout_above="@+id/register"
         android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:text="Register your student ID"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="70dp"
+        android:id="@+id/textView8"
+        android:textSize="30sp"
+        android:layout_above="@+id/register"
+        android:layout_alignStart="@+id/studentID"
+        android:textStyle="bold" />
 
 </RelativeLayout>
