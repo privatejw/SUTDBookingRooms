@@ -137,9 +137,12 @@ public class CalendarFragment extends Fragment {
                         }
                         waitForFirebase=false;
                         spinner = (Spinner) view.findViewById(R.id.spinner8);
-                        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<>(getActivity(),android.R.layout.simple_spinner_item, availableTimings);
-                        spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); // The drop down view
-                        spinner.setAdapter(spinnerArrayAdapter);
+                        if (getActivity() != null) {
+                            ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<>(getActivity(),android.R.layout.simple_spinner_item, availableTimings);
+                            spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); // The drop down view
+                            spinner.setAdapter(spinnerArrayAdapter);
+                        }
+
                     }
 
                     @Override
