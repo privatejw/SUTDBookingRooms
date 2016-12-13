@@ -9,8 +9,12 @@
         android:layout_height="wrap_content"
         android:id="@+id/studentID"
         android:layout_alignParentTop="true"
+<<<<<<< HEAD
         android:layout_marginTop="250dp"
         android:inputType="number"
+=======
+        android:layout_marginTop="171dp"
+>>>>>>> parent of e4c3737... modified registration page
         android:hint="Student ID"
         android:textSize="30dp"
         android:layout_marginRight="20dp"
@@ -23,7 +27,7 @@
         android:id="@+id/register"
         android:layout_below="@+id/studentID"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="91dp"
         android:textSize="30dp"
         android:clickable="true" />
 <<<<<<< HEAD
@@ -35,10 +39,11 @@
         android:layout_height="wrap_content"
         app:srcCompat="@drawable/logo"
         android:id="@+id/imageView5"
-        android:layout_marginBottom="150dp"
+        android:layout_marginBottom="80dp"
         android:layout_above="@+id/register"
         android:layout_centerHorizontal="true" />
 
+<<<<<<< HEAD
     <TextView
         android:text="Register your student ID"
         android:layout_width="wrap_content"
@@ -56,4 +61,6 @@
 >>>>>>> parent of 151403a... added logo
 =======
 >>>>>>> parent of 151403a... added logo
+=======
+>>>>>>> parent of e4c3737... modified registration page
 </RelativeLayout>
