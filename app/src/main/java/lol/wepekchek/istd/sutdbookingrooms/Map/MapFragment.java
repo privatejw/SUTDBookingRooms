@@ -163,7 +163,7 @@ public class MapFragment extends Fragment implements
                 new LatLng(-53.99, -5.99), new LatLng(-53.91, -5.91)));
         if (newLoc == null) {
             mMap.animateCamera(CameraUpdateFactory.newCameraPosition(new CameraPosition.Builder()
-                    .target(new LatLng(-53.95, -5.95)).zoom(12).bearing(0).tilt(0).build()));
+                    .target(new LatLng(-53.96397472885302,-5.987219586968422)).zoom(13).bearing(0).tilt(0).build()));
             addCircles(currentLevel);
         } else {
             mMap.animateCamera(CameraUpdateFactory.newCameraPosition(new CameraPosition.Builder()
@@ -380,5 +380,11 @@ public class MapFragment extends Fragment implements
 
     private void getRealTimeData() {
         MyFirebase.getInstance().getRealtimeDatabaseRef().addValueEventListener(this);
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mMap.clear();
     }
 }
