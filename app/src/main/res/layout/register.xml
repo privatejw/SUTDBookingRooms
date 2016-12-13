@@ -28,6 +28,7 @@
         android:clickable="true" />
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 
     <ImageView
         android:layout_width="wrap_content"
@@ -49,6 +50,8 @@
         android:layout_alignStart="@+id/studentID"
         android:textStyle="bold" />
 
+=======
+>>>>>>> parent of 151403a... added logo
 =======
 >>>>>>> parent of 151403a... added logo
 =======
