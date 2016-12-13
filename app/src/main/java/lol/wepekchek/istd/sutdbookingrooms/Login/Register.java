@@ -54,7 +54,8 @@ public class Register extends AppCompatActivity {
                                 @Override
                                 public void onComplete(@NonNull Task<AuthResult> task) {
                                     if (task.isSuccessful()) {
-                                        mAuth.signInWithEmailAndPassword(studentID.getText().toString() + "@mymail.sutd.edu.sg", mngr.getDeviceId().toString());
+                                        //mAuth.signInWithEmailAndPassword(studentID.getText().toString() + "@mymail.sutd.edu.sg", mngr.getDeviceId().toString());
+                                        mAuth.signInWithEmailAndPassword(studentID.getText().toString() + "@mymail.sutd.edu.sg", Secure.getString(this.getContentResolver(),Secure.ANDROID_ID));
                                         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                                         user.sendEmailVerification();
                                         dbo.insertStudent(studentID.getText().toString());
