@@ -235,6 +235,7 @@ public class MapFragment extends Fragment implements
                         calendar.setArguments(args);
                         FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
                         ft.replace(R.id.main_container, calendar);
+//                        mMap.clear();
                         ft.commit();
                     }
                 })
@@ -380,5 +381,11 @@ public class MapFragment extends Fragment implements
 
     private void getRealTimeData() {
         MyFirebase.getInstance().getRealtimeDatabaseRef().addValueEventListener(this);
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mMap.clear();
     }
 }
