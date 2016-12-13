@@ -32,7 +32,6 @@
     <uses-permission android:name="android.permission.NFC" />
 
     <application
-        android:screenOrientation="portrait"
         android:allowBackup="true"
         android:icon="@drawable/logo"
         android:label="MeetApp"
@@ -57,7 +56,7 @@
 
         <activity
             android:name=".Login.LoginActivity"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:label="@string/title_activity_login">
 
              <intent-filter>
              <action android:name="android.intent.action.MAIN" />

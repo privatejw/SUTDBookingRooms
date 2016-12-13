@@ -8,7 +8,7 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.telephony.TelephonyManager;
+//import android.telephony.TelephonyManager;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -28,8 +28,7 @@ import lol.wepekchek.istd.sutdbookingrooms.R;
 public class ManualLogIn extends AppCompatActivity {
     private DatabaseOperations dbo;
     private Button login;
-    private Button resend;
-    private TelephonyManager mngr;
+    //private TelephonyManager mngr;
     private FirebaseAuth mAuth;
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,16 +36,15 @@ public class ManualLogIn extends AppCompatActivity {
         setContentView(R.layout.manual_log_in);
         dbo = new DatabaseOperations(this, "", null, 1);
         login = (Button) findViewById(R.id.login);
-        resend = (Button) findViewById(R.id.resend);
-        mngr = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+        //mngr = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
         mAuth = FirebaseAuth.getInstance();
 
         login.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 final ProgressDialog progressDialog = ProgressDialog.show(ManualLogIn.this, "Please wait...", "Logging in...", true);
                 String email = dbo.displayStudents() + "@mymail.sutd.edu.sg";
-                String password = mngr.getDeviceId().toString();
-                //String password = Settings.Secure.getString(getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID);
+                //String password = mngr.getDeviceId().toString();
+                String password = Settings.Secure.getString(getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID);
 
 
                 (mAuth.signInWithEmailAndPassword(email, password))
@@ -76,37 +74,6 @@ public class ManualLogIn extends AppCompatActivity {
                         });
             }
         });
-
-        resend.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
-                String email = dbo.displayStudents() + "@mymail.sutd.edu.sg";
-                String password = mngr.getDeviceId().toString();
-                //String password = Settings.Secure.getString(getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID);
-
-                (mAuth.signInWithEmailAndPassword(email, password))
-                        .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
-                                if (task.isSuccessful()) {
-                                    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                                    if (user.isEmailVerified()){
-                                        Toast.makeText(ManualLogIn.this, "Account has been verified. You can now log in.", Toast.LENGTH_LONG).show();
-                                    }
-                                    else{
-                                        Toast.makeText(ManualLogIn.this, "Email sent.", Toast.LENGTH_LONG).show();
-                                        user.sendEmailVerification();
-                                    }
-                                } else if (task.getException().toString().equals("com.google.firebase.auth.FirebaseAuthInvalidCredentialsException: The password is invalid or the user does not have a password.")) {
-                                    mAuth.sendPasswordResetEmail(dbo.displayStudents() + "@mymail.sutd.edu.sg");
-                                    Toast.makeText(ManualLogIn.this, "Email sent.", Toast.LENGTH_LONG).show();
-                                } else {
-                                    Toast.makeText(ManualLogIn.this, task.getException().getMessage(), Toast.LENGTH_LONG).show();
-                                }
-                            }
-                        });
-            }
-        });
-
     }
 
     private boolean checkVerification() {
