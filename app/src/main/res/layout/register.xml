@@ -11,7 +11,7 @@
         android:id="@+id/studentID"
         android:layout_alignParentTop="true"
         android:layout_marginTop="250dp"
-        android:inputType="numberPassword"
+        android:inputType="number"
         android:hint="Student ID"
         android:textSize="30dp"
         android:layout_marginRight="20dp"
