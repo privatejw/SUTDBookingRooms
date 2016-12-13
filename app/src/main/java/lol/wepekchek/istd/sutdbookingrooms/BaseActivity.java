@@ -70,7 +70,7 @@ public class BaseActivity extends AppCompatActivity
 
         View hView =  navigationView.getHeaderView(0);
         TextView nav_user = (TextView)hView.findViewById(R.id.displayStudentId);
-        nav_user.setText(dbo.displayStudents());
+        nav_user.setText(dbo.displayStudents()+ "@mymail.sutd.edu.sg");
 
         // start of own code
         fm = getSupportFragmentManager();

@@ -106,10 +106,6 @@ public class AuthenticationFragment extends Fragment {
         expListView = (ExpandableListView) view.findViewById(R.id.sharedUsers);
 
 
-
-        //TODO: Change this to expandable list view
-        //sharedUsersListView = (ListView) view.findViewById(R.id.sharedUsers);
-
         shareBooking.setVisibility(View.INVISIBLE);
         shareID.setVisibility(View.INVISIBLE);
 
@@ -129,9 +125,6 @@ public class AuthenticationFragment extends Fragment {
                         fbKey = fbKey.substring(0,fbKey.length()-9);
 
                         String roomID = fbKey;
-//                        String roomID = data.getKey().substring(0,4);
-//                        String bookDate = data.getKey().substring(4,12);
-//                        String bookTime = data.getKey().substring(12,16);
                         String authorKey = data.getValue().toString();
 
                         currentBooking = new Bookings(roomID,bookDate,bookTime,authorKey);
@@ -179,8 +172,7 @@ public class AuthenticationFragment extends Fragment {
 
                 ExpandableListAdapter expListAdapter = new ExpandableListAdapter(getActivity(),groupUsers, sharedUsersCollection);
                 expListView.setAdapter(expListAdapter);
-                //ArrayAdapter arrayAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, sharedUsers);
-                //sharedUsersListView.setAdapter(arrayAdapter);
+
             }
 
             @Override

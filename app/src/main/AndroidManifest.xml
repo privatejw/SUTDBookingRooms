@@ -28,6 +28,7 @@
     <uses-permission android:name="android.permission.WRITE_INTERNAL_STORAGE" />
 
     <!-- NFC Tag -->
+    <uses-feature android:name="android.hardware.nfc.hce" android:required="true" />
     <uses-permission android:name="android.permission.NFC" />
 
     <application
@@ -92,6 +93,17 @@
                 <!--<category android:name="android.intent.category.LAUNCHER" />-->
             <!--</intent-filter>-->
         </activity>
+
+
+        <!--<service android:name=".AuthenticationNfcService"-->
+            <!--android:exported="true"-->
+            <!--android:permission="android.permission.BIND_NFC_SERVICE">-->
+            <!--<intent-filter>-->
+                <!--<action android:name="android.nfc.cardemulation.action.HOST_APDU_SERVICE"/>-->
+                <!--<category android:name="android.intent.category.DEFAULT"/>-->
+            <!--</intent-filter>-->
+            <!--<meta-data android:name="android.nfc.cardemulation.host_apdu_service" android:resource="@xml/aid_list"/>-->
+        <!--</service>-->
     </application>
 
 </manifest>
