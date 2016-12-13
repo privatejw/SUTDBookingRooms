@@ -7,7 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.telephony.TelephonyManager;
+//import android.telephony.TelephonyManager;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -27,7 +27,7 @@ import lol.wepekchek.istd.sutdbookingrooms.R;
 public class ManualLogIn extends AppCompatActivity {
     private DatabaseOperations dbo;
     private Button login;
-    private TelephonyManager mngr;
+    //private TelephonyManager mngr;
     private FirebaseAuth mAuth;
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,14 +35,15 @@ public class ManualLogIn extends AppCompatActivity {
         setContentView(R.layout.manual_log_in);
         dbo = new DatabaseOperations(this, "", null, 1);
         login = (Button) findViewById(R.id.login);
-        mngr = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+        //mngr = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
         mAuth = FirebaseAuth.getInstance();
 
         login.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 final ProgressDialog progressDialog = ProgressDialog.show(ManualLogIn.this, "Please wait...", "Logging in...", true);
                 String email = dbo.displayStudents() + "@mymail.sutd.edu.sg";
-                String password = mngr.getDeviceId().toString();
+                //String password = mngr.getDeviceId().toString();
+                String password = Secure.getString(this.getContentResolver(),Secure.ANDROID_ID);
                 (mAuth.signInWithEmailAndPassword(email, password))
                         .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                             @Override
