@@ -16,6 +16,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.model.LatLng;
@@ -27,6 +28,7 @@ import java.util.ArrayList;
 
 import lol.wepekchek.istd.sutdbookingrooms.Authentication.AuthenticationFragment;
 import lol.wepekchek.istd.sutdbookingrooms.Booking.BookingFragment;
+import lol.wepekchek.istd.sutdbookingrooms.Login.DatabaseOperations;
 import lol.wepekchek.istd.sutdbookingrooms.Map.MapFragment;
 import lol.wepekchek.istd.sutdbookingrooms.RoomSearch.CalendarFragment;
 import lol.wepekchek.istd.sutdbookingrooms.RoomSearch.RoomSearchFragment;
@@ -36,6 +38,7 @@ public class BaseActivity extends AppCompatActivity
     FragmentManager fm;
     ArrayList<String> listOfAvailableRooms=new ArrayList<>();
     String timing="";
+    private DatabaseOperations dbo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +46,7 @@ public class BaseActivity extends AppCompatActivity
         setContentView(R.layout.activity_base);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        dbo = new DatabaseOperations(this, "", null, 1);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -65,8 +69,8 @@ public class BaseActivity extends AppCompatActivity
         
 
         View hView =  navigationView.getHeaderView(0);
-        TextView nav_user = (TextView)hView.findViewById(R.id.nav_name);
-        nav_user.setText("test);
+        TextView nav_user = (TextView)hView.findViewById(R.id.displayStudentId);
+        nav_user.setText(dbo.displayStudents());
 
         // start of own code
         fm = getSupportFragmentManager();
