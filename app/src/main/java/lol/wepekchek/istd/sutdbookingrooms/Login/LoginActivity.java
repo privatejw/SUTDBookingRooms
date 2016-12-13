@@ -37,6 +37,7 @@ public class LoginActivity extends AppCompatActivity {
         if (dbo.displayStudents().equals("")) {
             Intent i = new Intent(LoginActivity.this, Register.class);
             startActivity(i);
+            finish();
             progressDialog.dismiss();
         } else {
             String email = dbo.displayStudents() + "@mymail.sutd.edu.sg";
@@ -52,18 +53,22 @@ public class LoginActivity extends AppCompatActivity {
                                 if (verification == false) {
                                     Intent i = new Intent(LoginActivity.this, ManualLogIn.class);
                                     startActivity(i);
+                                    finish();
                                 } else {
                                     Intent i = new Intent(LoginActivity.this, BaseActivity.class);
                                     startActivity(i);
+                                    finish();
                                 }
                             } else if (task.getException().toString().equals("com.google.firebase.auth.FirebaseAuthInvalidCredentialsException: The password is invalid or the user does not have a password.")) {
                                 dbo.deleteAll();
                                 Intent i = new Intent(LoginActivity.this, Register.class);
                                 startActivity(i);
+                                finish();
                             } else if (task.getException().toString().equals("com.google.firebase.auth.FirebaseAuthInvalidUserException: There is no user record corresponding to this identifier. The user may have been deleted.")) {
                                 dbo.deleteAll();
                                 Intent i = new Intent(LoginActivity.this, Register.class);
                                 startActivity(i);
+                                finish();
                             } else {
                                 Toast.makeText(LoginActivity.this, task.getException().getMessage(), Toast.LENGTH_LONG).show();
                             }

@@ -57,6 +57,7 @@ public class ManualLogIn extends AppCompatActivity {
                                     if (verification == true){
                                         Intent i = new Intent(ManualLogIn.this, BaseActivity.class);
                                         startActivity(i);
+                                        finish();
                                     }
                                 } else if (task.getException().toString().equals("com.google.firebase.auth.FirebaseAuthInvalidCredentialsException: The password is invalid or the user does not have a password.")) {
                                     dbo.deleteAll();
@@ -65,6 +66,7 @@ public class ManualLogIn extends AppCompatActivity {
                                     }
                                     Intent i = new Intent(ManualLogIn.this, Register.class);
                                     startActivity(i);
+                                    finish();
                                 } else {
                                     Toast.makeText(ManualLogIn.this, task.getException().getMessage(), Toast.LENGTH_LONG).show();
                                 }

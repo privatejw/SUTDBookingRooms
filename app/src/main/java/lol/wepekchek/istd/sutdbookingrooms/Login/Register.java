@@ -64,12 +64,14 @@ public class Register extends AppCompatActivity {
                                         Toast.makeText(Register.this, "Please verify your Student ID by checking your school email.", Toast.LENGTH_LONG).show();
                                         Intent i = new Intent(Register.this, ManualLogIn.class);
                                         startActivity(i);
+                                        finish();
                                     } else if (task.getException().toString().equals("com.google.firebase.auth.FirebaseAuthUserCollisionException: The email address is already in use by another account.")) {
                                         progressDialog.dismiss();
                                         dbo.insertStudent(studentID.getText().toString());
                                         registerNewPhone(studentID.getText().toString() + "@mymail.sutd.edu.sg");
                                         Intent i = new Intent(Register.this, ManualLogIn.class);
                                         startActivity(i);
+                                        finish();
                                     } else {
                                         progressDialog.dismiss();
                                         Toast.makeText(Register.this, task.getException().getMessage(), Toast.LENGTH_LONG).show();
