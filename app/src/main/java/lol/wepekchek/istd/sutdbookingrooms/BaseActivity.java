@@ -48,14 +48,6 @@ public class BaseActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
         dbo = new DatabaseOperations(this, "", null, 1);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Contact us", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -75,6 +67,8 @@ public class BaseActivity extends AppCompatActivity
         // start of own code
         fm = getSupportFragmentManager();
         if (MapDatabase.database == null) MapDatabase.initialize();
+
+        fm.beginTransaction().replace(R.id.main_container, new MapFragment()).commit();
 //        getRealTimeData();
     }
 
