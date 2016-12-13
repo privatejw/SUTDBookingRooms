@@ -230,7 +230,7 @@ public class CalendarFragment extends Fragment {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if(!dataSnapshot.child("Rooms").child(textView.getText().toString().replace(".","")).hasChild(finalDate+spinner.getSelectedItem().toString())){
-                    mDatabase.child("Rooms").child(textView.getText().toString().replace(".","")).child(finalDate+spinner.getSelectedItem().toString()).child("BookerID").setValue(userID);
+                    mDatabase.child("Rooms").child(textView.getText().toString().replace(".","")).child(finalDate+spinner.getSelectedItem().toString()).child(String.valueOf(userID)).setValue("Booker");
                     mDatabase.child("Users").child(String.valueOf(userID)).child("Bookings").child(textView.getText().toString().replace(".","")+finalDate+spinner.getSelectedItem().toString())
                             .setValue(UUID.randomUUID().toString().replace("-","").substring(0,20));
                     Toast.makeText(getActivity(), "Booking Successful", Toast.LENGTH_SHORT).show();

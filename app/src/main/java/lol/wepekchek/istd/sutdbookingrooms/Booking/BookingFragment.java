@@ -170,7 +170,7 @@ public class BookingFragment extends Fragment {
         int userID=8881234;
         String timing=this.timing.replace(" ","").replace("HRS","");
         Toast.makeText(getActivity(), timing, Toast.LENGTH_SHORT).show();
-        mDatabase.child("Rooms").child(spinner.getSelectedItem().toString()).child(timing).child("BookerID").setValue(userID);
+        mDatabase.child("Rooms").child(spinner.getSelectedItem().toString()).child(timing).child(String.valueOf(userID)).setValue("Booker");
         mDatabase.child("Users").child(String.valueOf(userID)).child("Bookings").child(spinner.getSelectedItem().toString()+timing)
                 .setValue(UUID.randomUUID().toString().replace("-","").substring(0,20));
         Toast.makeText(getActivity(), "Booking Successful", Toast.LENGTH_SHORT).show();
