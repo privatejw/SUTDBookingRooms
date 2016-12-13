@@ -91,7 +91,8 @@ public class AuthenticationFragment extends Fragment {
                              Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_current_bookings,container,false);
 
-        userID  = "1001234";  // TODO: Change this to get from database later
+//        userID  = "12345678";  // TODO: Change this to get from database later
+        userID = "9871234";
         sharedUsers = new ArrayList<String>();
         cal = Calendar.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference();
@@ -112,14 +113,22 @@ public class AuthenticationFragment extends Fragment {
         userDatabaseRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                SimpleDateFormat sdf = new SimpleDateFormat("ddMMyyyyHH");
+                SimpleDateFormat sdf = new SimpleDateFormat("ddMMMyyyyHH");
                 String currentTime = sdf.format(new Date());
 
                 for (DataSnapshot data: dataSnapshot.getChildren()){
                     if (data.getKey().contains(currentTime)){
-                        String roomID = data.getKey().substring(0,4);
-                        String bookDate = data.getKey().substring(4,12);
-                        String bookTime = data.getKey().substring(12,16);
+                        String fbKey = data.getKey();
+                        String bookTime = fbKey.substring(fbKey.length()-4);
+                        fbKey = fbKey.substring(0,fbKey.length()-4);
+
+                        String bookDate = fbKey.substring(fbKey.length()-9);
+                        fbKey = fbKey.substring(0,fbKey.length()-9);
+
+                        String roomID = fbKey;
+//                        String roomID = data.getKey().substring(0,4);
+//                        String bookDate = data.getKey().substring(4,12);
+//                        String bookTime = data.getKey().substring(12,16);
                         String authorKey = data.getValue().toString();
 
                         currentBooking = new Bookings(roomID,bookDate,bookTime,authorKey);
@@ -248,8 +257,8 @@ public class AuthenticationFragment extends Fragment {
         if (userID==null){
             Toast.makeText(getContext(),"No user entered",Toast.LENGTH_SHORT).show();
         } else {
-            mDatabase.child("Rooms").child(booking.getRoomID()).child(booking.getBookDate()+booking.getBookTime()).child(userID).setValue("Access");
-            mDatabase.child("Users").child(userID).child("Bookings").child(booking.getBookDate()+booking.getBookTime())
+            mDatabase.child("Rooms").child(booking.getRoomID()).child(booking.getBookDate()+booking.getBookTime()).child(userID).setValue("Shared");
+            mDatabase.child("Users").child(userID).child("Bookings").child(booking.getRoomID()+booking.getBookDate()+booking.getBookTime())
                     .setValue(booking.getAuthorKey());
         }
     }
