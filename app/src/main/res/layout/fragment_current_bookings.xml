@@ -70,8 +70,8 @@
         <EditText
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:inputType="textPersonName"
             android:hint="Student ID"
+            android:inputType="number"
             android:ems="10"
             android:id="@+id/shareID"
             android:layout_marginRight="10dp"/>
