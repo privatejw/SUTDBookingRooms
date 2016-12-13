@@ -18,6 +18,8 @@ import java.util.Map;
 
 import lol.wepekchek.istd.sutdbookingrooms.R;
 
+import static lol.wepekchek.istd.sutdbookingrooms.R.id.booking;
+
 /**
  * Created by 1001827 on 13/12/16.
  */
@@ -26,11 +28,13 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
     private Activity context;
     private Map<String, ArrayList<String>> sharedUsersCollections;
     private ArrayList<String> usersWithAccess;
+    private AuthenticationFragment af;
 
-    public ExpandableListAdapter(Activity context, ArrayList<String> usersWithAccess, Map<String, ArrayList<String>> sharedUsersCollections){
+    public ExpandableListAdapter(AuthenticationFragment af, Activity context, ArrayList<String> usersWithAccess, Map<String, ArrayList<String>> sharedUsersCollections){
         this.context = context;
         this.sharedUsersCollections = sharedUsersCollections;
         this.usersWithAccess = usersWithAccess;
+        this.af = af;
     }
 
     public Object getChild(int groupPosition, int childPosition){
@@ -62,6 +66,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 ArrayList<String> child = sharedUsersCollections.get(usersWithAccess.get(groupPosition));
+                                af.removeBooking(child.get(childPosition));
                                 child.remove(childPosition);
                                 notifyDataSetChanged();
                             }

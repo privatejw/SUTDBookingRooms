@@ -55,7 +55,7 @@ public class CalendarFragment extends Fragment {
     private static String fromMap="";
     private static final String[] monthNumberToWord={"Jan","Feb","Mar","Apr","May","Jun","Jul","Aug"
             ,"Sep","Oct","Nov","Dec"};
-    private static final String[] officeHours={"0800","0900","1000","1100","1200","1300","1400",
+    private static final String[] officeHours={"0500","0600","0700","0800","0900","1000","1100","1200","1300","1400",
             "1500","1600","1700","1800","1900","2000","2100"};
     private static final ArrayList<String> rooms = MapDatabase.listOfRooms;
     private Spinner spinner;
@@ -237,8 +237,10 @@ public class CalendarFragment extends Fragment {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if(!dataSnapshot.child("Rooms").child(textView.getText().toString().replace(".","")).hasChild(finalDate+spinner.getSelectedItem().toString())){
                     mDatabase.child("Rooms").child(textView.getText().toString().replace(".","")).child(finalDate+spinner.getSelectedItem().toString()).child(String.valueOf(userID)).setValue("Booker");
+                    String qrCode=UUID.randomUUID().toString().replace("-","").substring(0,20);
+                    mDatabase.child("Rooms").child(textView.getText().toString().replace(".","")).child(finalDate+spinner.getSelectedItem().toString()).child("AuthorKey").setValue(qrCode);
                     mDatabase.child("Users").child(String.valueOf(userID)).child("Bookings").child(textView.getText().toString().replace(".","")+finalDate+spinner.getSelectedItem().toString())
-                            .setValue(UUID.randomUUID().toString().replace("-","").substring(0,20));
+                            .setValue(qrCode);
                     Toast.makeText(getActivity(), "Booking Successful", Toast.LENGTH_SHORT).show();
                 }else{
                     Toast.makeText(getActivity(), "Sorry, this room has just been booked", Toast.LENGTH_SHORT).show();
