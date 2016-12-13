@@ -28,7 +28,7 @@
     <uses-permission android:name="android.permission.WRITE_INTERNAL_STORAGE" />
 
     <!-- NFC Tag -->
-    <uses-feature android:name="android.hardware.nfc.hce" android:required="true" />
+    <uses-feature android:name="android.hardware.nfc.hce" android:required="false" />
     <uses-permission android:name="android.permission.NFC" />
 
     <application
@@ -64,7 +64,7 @@
 
              <category android:name="android.intent.category.LAUNCHER" />
              </intent-filter>
-             register activity is bugged, so i'm bypassing it
+             <!--register activity is bugged, so i'm bypassing it-->
         </activity>
         <activity
             android:name=".BaseActivity"
@@ -96,15 +96,15 @@
         </activity>
 
 
-        <!--<service android:name=".AuthenticationNfcService"-->
-            <!--android:exported="true"-->
-            <!--android:permission="android.permission.BIND_NFC_SERVICE">-->
-            <!--<intent-filter>-->
-                <!--<action android:name="android.nfc.cardemulation.action.HOST_APDU_SERVICE"/>-->
-                <!--<category android:name="android.intent.category.DEFAULT"/>-->
-            <!--</intent-filter>-->
-            <!--<meta-data android:name="android.nfc.cardemulation.host_apdu_service" android:resource="@xml/aid_list"/>-->
-        <!--</service>-->
+        <service android:name=".Authentication.NfcService"
+            android:exported="true"
+            android:permission="android.permission.BIND_NFC_SERVICE">
+            <intent-filter>
+                <action android:name="android.nfc.cardemulation.action.HOST_APDU_SERVICE"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+            <meta-data android:name="android.nfc.cardemulation.host_apdu_service" android:resource="@xml/aid_list"/>
+        </service>
     </application>
 
 </manifest>

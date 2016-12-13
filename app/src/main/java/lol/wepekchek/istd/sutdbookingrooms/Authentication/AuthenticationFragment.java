@@ -160,7 +160,7 @@ public class AuthenticationFragment extends Fragment {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 sharedUsers.clear();
                 for (DataSnapshot data : dataSnapshot.getChildren()) {
-                    if (!data.getKey().contains(userID)) {
+                    if (!data.getKey().contains(userID)&&!data.getKey().contains("AuthorKey")) {
                         sharedUsers.add(data.getKey());
                     }
                 }
