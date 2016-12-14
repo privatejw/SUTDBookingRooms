@@ -5,32 +5,19 @@
         <item
             android:id="@+id/f_map"
             android:icon="@drawable/ic_menu_camera"
-            android:title="Map" />
+            android:title="SUTD Map" />
         <item
             android:id="@+id/f_booking"
             android:icon="@drawable/ic_menu_gallery"
-            android:title="Booking" />
+            android:title="Book A Room" />
         <item
-            android:id="@+id/f_roomSearch"
+            android:id="@+id/f_mybookings"
             android:icon="@drawable/ic_menu_slideshow"
-            android:title="Room Search" />
+            android:title="My Bookings" />
         <item
             android:id="@+id/f_authentication"
             android:icon="@drawable/ic_menu_manage"
-            android:title="Authentication" />
+            android:title="Unlock Doors" />
     </group>
-
-    <item android:title="Communicate">
-        <menu>
-            <item
-                android:id="@+id/nav_share"
-                android:icon="@drawable/ic_menu_share"
-                android:title="Share" />
-            <item
-                android:id="@+id/nav_send"
-                android:icon="@drawable/ic_menu_send"
-                android:title="Send" />
-        </menu>
-    </item>
 
 </menu>

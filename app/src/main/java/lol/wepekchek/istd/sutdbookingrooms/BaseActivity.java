@@ -117,12 +117,10 @@ public class BaseActivity extends AppCompatActivity
             fragment = new MapFragment();
         } else if (id == R.id.f_booking) {
             fragment = new CalendarFragment();
-        } else if (id == R.id.f_roomSearch) {
-            fragment = new RoomSearchFragment();
+        } else if (id == R.id.f_mybookings) {
+            fragment = new MyBookingsFragment();
         } else if (id == R.id.f_authentication) {
             fragment = new AuthenticationFragment();
-        } else if (id == R.id.nav_send) {
-            fragment = new MapFragment().newInstance(3, new LatLng(-53.965623629921105, -5.974991060793399));
         } else {
             fragment = new MyBookingsFragment();
         }
@@ -132,10 +130,6 @@ public class BaseActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
-    }
-    private void getRealTimeData() {
-        Log.d("Reached function", "1");
-        MyFirebase.getInstance().getRealtimeDatabaseRef().addValueEventListener(this);
     }
     @Override
     public void onDataChange(DataSnapshot dataSnapshot) {
@@ -149,36 +143,6 @@ public class BaseActivity extends AppCompatActivity
     }
     @Override
     public void onCancelled(DatabaseError databaseError) {}
-
-    public class SectionsPagerAdapter extends FragmentPagerAdapter {
-
-        public SectionsPagerAdapter(FragmentManager fm) {
-            super(fm);
-        }
-
-        @Override
-        public Fragment getItem(int position) {
-            if (position == 0) return new MapFragment();
-            return new MapFragment();
-        }
-
-        @Override
-        public int getCount() {
-            // Show 4 total pages.
-            return 4;
-        }
-
-        @Override
-        public CharSequence getPageTitle(int position) {
-            switch (position) {
-                case 0:
-                    return "Client";
-                case 1:
-                    return "Server";
-            }
-            return null;
-        }
-    }
 
     public ArrayList<String> getListOfAvailableRooms() {
         return listOfAvailableRooms;
