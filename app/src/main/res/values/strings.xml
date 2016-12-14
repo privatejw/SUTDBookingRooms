@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">SUTDBookingRooms</string>
     <string name="title_activity_maps">Map</string>
-    <string name="title_activity_login">First Time Sign In</string>
+    <string name="title_activity_login">MeetApp</string>
 
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
