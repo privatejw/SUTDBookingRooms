@@ -202,7 +202,7 @@ public class AuthenticationFragment extends Fragment implements  ValueEventListe
     }
 
     private void loadCreateQR(Bookings booking){
-        if (booking!=null){
+        if (booking!=null && getView() != null){
             messageHead = (TextView) getView().findViewById(R.id.messageHead);
             messageRoomID = (TextView) getView().findViewById(R.id.messageRoomID);
             messageRoomTime = (TextView) getView().findViewById(R.id.messageRoomTime);
@@ -262,7 +262,9 @@ public class AuthenticationFragment extends Fragment implements  ValueEventListe
     private void shareBooking(String userID, Bookings booking){
         if (userID==null){
             Toast.makeText(getContext(),"No user entered",Toast.LENGTH_SHORT).show();
-        } else {
+        } else if (!userID.matches("100\\d{4}")) {
+            Toast.makeText(getContext(),"Please enter a valid user ID",Toast.LENGTH_SHORT).show();
+        }else {
             mDatabase.child("Rooms").child(booking.getRoomID()).child(booking.getBookDate()+booking.getBookTime()).child(userID).setValue("Shared");
             mDatabase.child("Users").child(userID).child("Bookings").child(booking.getRoomID()+booking.getBookDate()+booking.getBookTime())
                     .setValue(booking.getAuthorKey());
