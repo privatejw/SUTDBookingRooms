@@ -90,6 +90,13 @@ public class AuthenticationFragment extends Fragment implements  ValueEventListe
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+
+        if (messageRoomID != null && currentBooking == null) messageRoomID.setText("You have no current bookings.");
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_current_bookings,container,false);
@@ -111,6 +118,7 @@ public class AuthenticationFragment extends Fragment implements  ValueEventListe
         shareID.setVisibility(View.INVISIBLE);
 
         userDatabaseRef.addValueEventListener(new ValueEventListener() {
+
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 SimpleDateFormat sdf = new SimpleDateFormat("ddMMMyyyyHH");
