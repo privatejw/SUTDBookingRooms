@@ -56,7 +56,8 @@
 
         <activity
             android:name=".Login.LoginActivity"
-            android:label="@string/title_activity_login">
+            android:label="@string/title_activity_login"
+            android:theme="@style/AppTheme.NoActionBar">
 
              <intent-filter>
              <action android:name="android.intent.action.MAIN" />
@@ -79,10 +80,14 @@
         </activity>
         <activity
             android:name=".Login.ManualLogIn"
-            android:label="Manual Log In" />
+            android:label="Manual Log In"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Login.Register"
-            android:label="Registration" />
+            android:label="Registration"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".RoomSearch.SearchByRoom"
             android:label="@string/title_activity_search_by_room"

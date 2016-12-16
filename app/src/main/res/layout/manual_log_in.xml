@@ -5,31 +5,50 @@
     android:layout_height="match_parent">
 
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         app:srcCompat="@drawable/logo"
+        android:id="@+id/imageView7"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:id="@+id/imageView2"
-        android:layout_marginBottom="354dp" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Log in"
-        android:id="@+id/login"
-        android:clickable="true"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="117dp" />
+        android:layout_marginTop="50dp" />
 
     <TextView
         android:text="Log in now to begin using the app!"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/textView9"
-        android:textSize="20sp"
-        android:layout_above="@+id/login"
+        android:layout_alignTop="@+id/imageView7"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="28dp" />
+        android:layout_marginTop="250dp"
+        android:id="@+id/textView11"
+        android:textSize="20sp" />
+
+    <Button
+        android:text="Log in"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:id="@+id/login"
+        android:layout_below="@+id/textView11"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:text="Not receiving email verification or \npassword reset email?"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/login"
+        android:layout_centerHorizontal="true"
+        android:textSize="20sp"
+        android:id="@+id/textView12"
+        android:layout_marginTop="25dp" />
+
+    <Button
+        android:text="Resend Email"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:id="@+id/resend"
+        android:layout_below="@+id/textView12"
+        android:layout_centerHorizontal="true" />
+
 </RelativeLayout>

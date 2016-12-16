@@ -1,14 +1,21 @@
 package lol.wepekchek.istd.sutdbookingrooms.Login;
 
 
+import android.Manifest;
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
+import android.content.pm.PackageManager;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 //import android.telephony.TelephonyManager;
+import android.telephony.TelephonyManager;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -22,16 +29,24 @@ import lol.wepekchek.istd.sutdbookingrooms.R;
 
 public class LoginActivity extends AppCompatActivity {
     private DatabaseOperations dbo;
-    //private TelephonyManager mngr;
-
+    private static final int REQUEST_READ_PERMISSION = 123;
+    private TelephonyManager mngr;
     private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        if (CheckPermission(LoginActivity.this, Manifest.permission.READ_PHONE_STATE)) {
+            attemptLogIn();
+        } else {
+            RequestPermission(LoginActivity.this, Manifest.permission.READ_PHONE_STATE, REQUEST_READ_PERMISSION);
+        }
+    }
+
+    private void attemptLogIn() {
         dbo = new DatabaseOperations(this, "", null, 1);
-        //mngr = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+        mngr = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
         mAuth = FirebaseAuth.getInstance();
         final ProgressDialog progressDialog = ProgressDialog.show(LoginActivity.this, "Please wait...", "Checking for user...", true);
         if (dbo.displayStudents().equals("")) {
@@ -41,8 +56,7 @@ public class LoginActivity extends AppCompatActivity {
             progressDialog.dismiss();
         } else {
             String email = dbo.displayStudents() + "@mymail.sutd.edu.sg";
-            //String password = mngr.getDeviceId().toString();
-            String password = Settings.Secure.getString(getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID);
+            String password = mngr.getDeviceId().toString();
             (mAuth.signInWithEmailAndPassword(email, password))
                     .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                         @Override
@@ -85,6 +99,43 @@ public class LoginActivity extends AppCompatActivity {
         } else {
             Toast.makeText(LoginActivity.this, "Please verify your Student ID by checking your school email.", Toast.LENGTH_LONG).show();
             return false;
+        }
+    }
+
+    public boolean CheckPermission(Context context, String Permission) {
+        if (ContextCompat.checkSelfPermission(context,
+                Permission) == PackageManager.PERMISSION_GRANTED) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public void RequestPermission(Activity thisActivity, String Permission, int Code) {
+        if (ContextCompat.checkSelfPermission(thisActivity,
+                Permission)
+                != PackageManager.PERMISSION_GRANTED) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(thisActivity,
+                    Permission)) {
+            } else {
+                ActivityCompat.requestPermissions(thisActivity,
+                        new String[]{Permission},
+                        Code);
+            }
+        }
+    }
+
+    public void onRequestPermissionsResult(int permsRequestCode, String[] permissions, int[] grantResults) {
+
+        switch (permsRequestCode) {
+
+            case REQUEST_READ_PERMISSION: {
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    attemptLogIn();
+                }
+                return;
+            }
         }
     }
 }

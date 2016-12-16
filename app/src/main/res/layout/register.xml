@@ -5,47 +5,47 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
 
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/studentID"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="250dp"
-        android:inputType="number"
-        android:hint="Student ID"
-        android:textSize="30dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginLeft="20dp" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Register"
-        android:id="@+id/register"
-        android:layout_below="@+id/studentID"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="91dp"
-        android:textSize="30dp"
-        android:clickable="true" />
-
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         app:srcCompat="@drawable/logo"
-        android:id="@+id/imageView5"
-        android:layout_marginBottom="80dp"
-        android:layout_above="@+id/register"
-        android:layout_centerHorizontal="true" />
+        android:id="@+id/imageView15"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp" />
 
     <TextView
         android:text="Register your student ID"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="70dp"
-        android:id="@+id/textView8"
+        android:layout_alignTop="@+id/imageView7"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="275dp"
+        android:id="@+id/textView10"
         android:textSize="30sp"
-        android:layout_above="@+id/register"
-        android:layout_alignStart="@+id/studentID"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        />
 
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:layout_below="@+id/textView10"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="25dp"
+        android:id="@+id/studentID"
+        android:inputType="number"
+        android:hint="Student ID"
+        android:textSize="30dp"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/studentID"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="25dp"
+        android:id="@+id/register"
+        android:text="Register"
+        android:clickable="true"
+        android:textSize="30dp"/>
 </RelativeLayout>

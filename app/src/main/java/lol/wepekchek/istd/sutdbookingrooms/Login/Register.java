@@ -1,13 +1,19 @@
 package lol.wepekchek.istd.sutdbookingrooms.Login;
 
+import android.Manifest;
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 //import android.telephony.TelephonyManager;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -29,34 +35,41 @@ public class Register extends AppCompatActivity {
     private DatabaseOperations dbo;
     private Button register;
     private EditText studentID;
-    //private TelephonyManager mngr;
     private FirebaseAuth mAuth;
+    private static final int REQUEST_READ_PERMISSION = 123;
+    private TelephonyManager mngr;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.register);
+        if (CheckPermission(Register.this, Manifest.permission.READ_PHONE_STATE)) {
+            attemptRegister();
+        } else {
+            RequestPermission(Register.this, Manifest.permission.READ_PHONE_STATE, REQUEST_READ_PERMISSION);
+        }
+    }
+
+    private void attemptRegister(){
         dbo = new DatabaseOperations(this, "", null, 1);
         register = (Button) findViewById(R.id.register);
         studentID = (EditText) findViewById(R.id.studentID);
-        //mngr = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
         mAuth = FirebaseAuth.getInstance();
-
         register.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 if (studentID.getText().toString().length() == 7 && studentID.getText().toString().matches("[0-9]*")) {
                     final ProgressDialog progressDialog = ProgressDialog.show(Register.this, "Please wait...", "Processing...", true);
                     String email = studentID.getText().toString() + "@mymail.sutd.edu.sg";
-                    //String password = mngr.getDeviceId().toString();
-                    String password = Settings.Secure.getString(getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID);
+
+                    mngr = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+                    String password = mngr.getDeviceId().toString();
 
                     (mAuth.createUserWithEmailAndPassword(email, password))
                             .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                                 @Override
                                 public void onComplete(@NonNull Task<AuthResult> task) {
                                     if (task.isSuccessful()) {
-                                        //mAuth.signInWithEmailAndPassword(studentID.getText().toString() + "@mymail.sutd.edu.sg", mngr.getDeviceId().toString());
-                                        mAuth.signInWithEmailAndPassword(studentID.getText().toString() + "@mymail.sutd.edu.sg", Settings.Secure.getString(getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID));
+                                        mAuth.signInWithEmailAndPassword(studentID.getText().toString() + "@mymail.sutd.edu.sg", mngr.getDeviceId().toString());
                                         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                                         user.sendEmailVerification();
                                         dbo.insertStudent(studentID.getText().toString());
@@ -84,7 +97,6 @@ public class Register extends AppCompatActivity {
             }
         });
     }
-
     private void registerNewPhone(String email) {
         mAuth.sendPasswordResetEmail(email)
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -97,5 +109,42 @@ public class Register extends AppCompatActivity {
                         }
                     }
                 });
+    }
+
+    public boolean CheckPermission(Context context, String Permission) {
+        if (ContextCompat.checkSelfPermission(context,
+                Permission) == PackageManager.PERMISSION_GRANTED) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public void RequestPermission(Activity thisActivity, String Permission, int Code) {
+        if (ContextCompat.checkSelfPermission(thisActivity,
+                Permission)
+                != PackageManager.PERMISSION_GRANTED) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(thisActivity,
+                    Permission)) {
+            } else {
+                ActivityCompat.requestPermissions(thisActivity,
+                        new String[]{Permission},
+                        Code);
+            }
+        }
+    }
+
+    public void onRequestPermissionsResult(int permsRequestCode, String[] permissions, int[] grantResults) {
+
+        switch (permsRequestCode) {
+
+            case REQUEST_READ_PERMISSION: {
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    attemptRegister();
+                }
+                return;
+            }
+        }
     }
 }
