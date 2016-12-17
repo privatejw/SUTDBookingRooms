@@ -1,12 +1,12 @@
 package lol.wepekchek.istd.sutdbookingrooms;
 
-
-import com.google.android.gms.maps.model.LatLng;
+// implements the Simpleton Design Pattern
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class MapDatabase {
+    private MapDatabase instance = null;
     public static HashMap<Integer, HashMap<String, String>> database = null;
     public static HashMap<String, String> roomIdToName = null;
     public static HashMap<String, String> roomNameToId = null;
@@ -353,5 +353,14 @@ public class MapDatabase {
 //            name = roomIdToName.get(id);
 //            if (!name.equals("")) roomNameToId.put(name+" ("+id+")", id);
 //        }
+    }
+
+    private MapDatabase() {
+        initialize();
+    }
+
+    public MapDatabase getInstance(){
+        if (instance == null) return new MapDatabase();
+        return instance;
     }
 }
